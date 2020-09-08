@@ -392,7 +392,11 @@ docker run ubuntu:xenial
 
 A decisão da versão a se trabalhar como base é a cargo da pessoa que decide montar o ambiente, o DockerHub possui algumas versões de determinados S.O prontas que podem ser ou não de distros oficiais, no caso do Ubuntu, é uma distro mantida pela própria Canonical.
 
-**A execução de um container, no caso o latest ubuntu:**
+____
+
+#### Voltando ao hello-world
+
+**A execução de um container, no caso um hello-world latest:**
 
 ```
 root@teste-teste:/home/guilherme# docker run hello-world
@@ -514,8 +518,6 @@ ___
 
 ### Agora, executando um novo container
 
-redirect_to: /foo/
-
 Para se executar um novo container, pode-se utilizar o mesmo ```docker run hello-world```, ele vai criar um novo container sobre a imagem já utilizada, subir, executar sua função e fechar, ou se pode subir um novo container diferente, ex:
 
 ```
@@ -557,8 +559,9 @@ Esse é o conceito de imagens e pulls do Docker, todas as imagens compartilham s
 
 ___
 
-##### Leitor: Nossa, sério, só isso, esse textão todo só prá isso?
-##### Eu: Calma, ainda tem mais uma coisinha interessante que é necessário para se trabalhar com o Docker e seus containers.
+#### Aviso aos leitores:
+**Leitor: Nossa, sério, só isso, esse textão todo só prá isso?**
+**Eu: Calma, ainda tem mais uma coisinha interessante que é necessário para se trabalhar com o Docker e seus containers.**
 
 ___
 
@@ -2921,7 +2924,7 @@ Para fazer o up da uma imagem
 docker pull <nome do usuario>/<imagem>
 ```
 
-Ex:
+**Exemplo:**
 ```
 docker pull teste/teste_ubuntu
 ```
@@ -2939,9 +2942,9 @@ Até agora subimos todos os containers na mão, porém daqui em diante vamos aut
 
 Más não é que é ruim subir na mão os containers, é que numa aplicação dos mesmos de forma a fornecer um serviço por exemplo, o administrador tem que saber o que está acontecendo, más não trabalham a todo o instante sobre a plataforma, assim quanto mais automatizado melhor o gerenciamento sobre os containers.
 
-Agora, vemos lembrar la do inicio **#TEXTO**, que afirma-va que um container tem a propósta de funcionar com uma unica aplicação sobre ele, assim não pense que é só colocar toda a sua produção sobre um container e esperar que de tudo certo... tudo bem, se nada de ruim acontecer tudo vai funcionar... más como você está neste manual você sabe, **MERLIN's acontencem**.
+Agora, vemos lembrar la do inicio, **#SUBA A TELA CASO TENHA ESQUECIDO**, que afirma-va que um container tem a propósta de funcionar com uma unica aplicação sobre ele, assim não pense que é só colocar toda a sua produção sobre um container e esperar que de tudo certo... tudo bem, se nada de ruim acontecer tudo vai funcionar... más como você está neste manual você sabe, **MERLIN's acontencem**.
 
-Para isso existe a ferramenta Docker Composede que é o orquestrador de containers para automação de tarefas.
+Para isso existe a ferramenta Docker Compose que é o orquestrador de containers para automação de tarefas.
 
 ___
 
@@ -3529,11 +3532,9 @@ root@debian:~/exemplo# docker-compose ps
       Name                     Command               State          Ports
 ---------------------------------------------------------------------------------
 exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
-
-
 ```
 
-De quebra toma um ```pause```, ```start```, ```kill``` e ```ùnpause```
+De quebra toma um ```pause```, ```start```, ```kill``` e ```unpause```
 
 * ```pause``` para os container's atuais;
 * ```start``` inicia esse container parados;
