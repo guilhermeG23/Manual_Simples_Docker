@@ -14,14 +14,14 @@ ___
 Este manual visa:
 * Demonstrar o que é o Docker;
 * Diferença do docker e máquinas virtuais;
-* Porque da utilização do do Docker;
-* Demonstrar de forma introdutório, completa e menos formal possível sobre a plataforma e seu uso;
+* Porque da utilização do Docker;
+* Demonstrar de forma introdutória, completa e menos formal possível sobre a plataforma e seu uso;
 
 ___
 
 ### Atenção
 
-Para todos que desejam um contêudo mais rico doque o apresentado neste manual, recomendo o **DOCS** do próprio Docker, Link: https://docs.docker.com/
+Para todos que desejam um conteúdo mais rico doque o apresentado neste manual, recomendo o **DOCS** do próprio Docker, Link: https://docs.docker.com/
 
 ___
 
@@ -31,15 +31,15 @@ Virtualização surgiu como um método de compartilhar o tempo de processamento 
 
 Sem virtualização:
 
-* Se eram necessários 2 horas para duas tarefas;
+* Eram necessários 2 horas para duas tarefas;
 
 Com virtualização:
 
-*  Necessário 1 hora para as duas tarefas
+* Apenas 1 hora para as duas tarefas
 
-O motivo desse menor tempo é claro a virtualização, duas máquinas "distintas" executaram tarefas indepentendentes e entregaram seus resultados.
+O motivo desse menor tempo, é claro, a virtualização, duas máquinas "distintas" executaram tarefas indepentendentes e entregaram seus resultados.
 
-A virtualização começou a ser implementanda realmente no anos 2000, mesmo que seu conceito já existise em 1960, o hardware não era capacitado o suficiente, em 2000, o hardware teve grandes avanços de várias formas, melhores tecnologias, preço menor e diversos outros , além de que os propríos softwares tiveram grande evolução após o fim da "crise do software", possibilitando novos empreendimentos na técnologia.
+A virtualização começou a ser implementanda realmente no anos 2000, mesmo que seu conceito já existia em 1960, o hardware não era capacitado o suficiente, em 2000, o hardware teve grandes avanços de várias formas, melhores tecnologias, preço menor e diversos outros, além de que os próprios softwares tiveram grande evolução após o fim da "crise do software", possibilitando novos empreendimentos na tecnologia.
 
 ___
 
