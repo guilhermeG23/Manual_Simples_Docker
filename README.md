@@ -5,8 +5,7 @@ ___
 
 ### Agradecimentos
 
-Esse simples manual foi gerado como um compilado de várias fontes com o intuido de ser um guia e uma referência ao tema, não tomando o escrito como minha própria autoria e sim algo como uma junção para a comunidade.
-
+Esse simples manual foi gerado como um compilado de várias fontes com o intuído de ser um guia e uma referência ao tema, não tomando o escrito como minha própria autoria e sim algo formado como uma junção para a comunidade.
 ___
 
 ### Introdução
@@ -15,87 +14,102 @@ Este manual visa:
 * Demonstrar o que é o Docker;
 * Diferença do docker e máquinas virtuais;
 * Porque da utilização do Docker;
-* Demonstrar de forma introdutória, completa e menos formal possível sobre a plataforma e seu uso;
+* Demonstrar de forma introdutória e menos formal a plataforma e seu uso;
 
 ___
 
 ### Atenção
 
-Para todos que desejam um conteúdo mais rico doque o apresentado neste manual, recomendo o **DOCS** do próprio Docker, Link: https://docs.docker.com/
+Para todos que desejam um conteúdo mais rico do que o apresentado neste manual, recomendo o **DOCS** do próprio Docker, Link: https://docs.docker.com/.
+
+___
+
+### Link para o manual:
+
+Link: https://github.com/guilhermeG23/Manual_Simples_Docker
 
 ___
 
 ### Um pouco de história
 
-Virtualização surgiu como um método de compartilhar o tempo de processamento de forma a se obter mais resultados com o custo de mesmo tempo, exemplo:
+De forma rasa a virtualização surgiu como um método de compartilhar o tempo de processamento de forma a se obter mais resultados com o custo de mesmo tempo, exemplo:
 
-Sem virtualização:
+Exemplo:
+* **Sem virtualização** eram necessários 2 horas para duas tarefas;
+* **Com virtualização** isso e tornou apenas 1 hora para as duas tarefas;
 
-* Eram necessários 2 horas para duas tarefas;
+O motivo desse menor tempo, claro, foi a implementação da virtualização, onde duas máquinas "distintas" executaram tarefas independentes e entregaram seus resultados da mesma forma que uma única máquina faria.
 
-Com virtualização:
-
-* Apenas 1 hora para as duas tarefas
-
-O motivo desse menor tempo, é claro, a virtualização, duas máquinas "distintas" executaram tarefas indepentendentes e entregaram seus resultados.
-
-A virtualização começou a ser implementanda realmente no anos 2000, mesmo que seu conceito já existia em 1960, o hardware não era capacitado o suficiente, em 2000, o hardware teve grandes avanços de várias formas, melhores tecnologias, preço menor e diversos outros, além de que os próprios softwares tiveram grande evolução após o fim da "crise do software", possibilitando novos empreendimentos na tecnologia.
+A virtualização começou a ser realmente implementada no anos 2000, mesmo que seu conceito já existisse desde 1960, o hardware não era capacitado o suficiente, em 2000, o hardware teve grandes avanços de várias formas, melhores tecnologias, preço menor e diversos outros, além de que os próprios softwares tiveram grande evolução após o fim da "crise do software", possibilitando novos empreendimentos na tecnologia, sendo um destes a própria virtualização que ganhou o mercado por vários benefícios.
 
 ___
 
-#### Qual a graça da virtualização
+#### Qual a graça da virtualização?
 
-A graça é a criação de um novo sistema operacional lógico e separado do sistema base do **HOST**, onde essa máquina será servida por um **POOL** de hardware instanciado e controlado por uma  tecnologia virtualização hipervisor.
+A graça é a criação de um novo sistema operacional lógicos, separados do sistema base do **HOST**, onde essa máquina será servida por um **POOL** de hardware instanciado e controlado por uma tecnologia virtualização hiper visor.
 
 ___
 
-#### Então e o Docker?
+#### Então... e o Docker?
 
-Tecnologias de containers não são novas, a LXC é uma desses moelos, ela trabalha em containers de Hipervisior 1, onde o LXC controla os containers que serão os sistemas que se utilizaram do hardware.
+Tecnologias de containers não são novas, a LXC já era um veterano de guerra quando surgiu o Docker, não sendo o foco más um mínimo comparativo o LXC é implementado pelo Kernel Linux é permite o provisionamento de containers a nível 1 do Hyper Visor, isso é, criar um **POOL** de hardware gerenciando demais máquina desse **POOL**.
 
-O Docker diferente do LXC é um hypervisior 2, onde ele opera por cima de um sistema operacional base, seu nome atualmente é famoso por N motivos, más os principais são:
+O Docker diferente do LXC é um Hyper Visior de nível 2, onde ele opera por cima de um sistema operacional base, seu nome atualmente é famoso por N motivos, más os principais são:
 
 * Densevolvido em GO (Linguagem da Google);
 * Facilidade de crescimento, instancias e demais;
+
+Há, sabe é legal ler mais um pouco sobre isso, então eu recomendo esse link: https://linuxcontainers.org/, ele fala tanto sobre o **LXC** quanto demais métodos de conteinerização, demais tecnologias como o **LXD** que é o sucessor do **LXC**, introdução sobre ambas a tecnologias e demais informações realmente interessantes... recomendo se tiverem tempo, paciência ou vontade.
 
 ___
 
 #### Falou, falou, falou, más não falou nada
 
-Containers e V.M são diferentes em constituição, porém podem ser implementados pelos mesmo propósito, más o resultados podem ser váriados.
+Containers e V.M são diferentes em constituição, porém podem ser implementados pelos mesmos propósitos, más os resultados podem ser variados por N motivos, primeiramente deve se ter um cenário para saber qual de ambos é a melhor solução.
 
 ___
 
 #### Diferença de uma V.M para um Container
 
-Uma V.M (Virtual machine ou máquina virtual) simula um ambiente completo sobre o atual sistema operacional, já um container Docker é parte de um S.O, ele se utilizada da base para seu funcionamento e importa bibliotecas necessários para funcionar, más isso faz alguma diferença? A respota é: **Uma V.M é um S.O inteiro novo, coisa que um container não é!**
+Essa é uma excelente pergunta e é um dos pontos chave sobre a ambos, uma V.M (Virtual machine ou máquina virtual) simula um ambiente completo sobre o atual sistema operacional, já um container se utiliza de uma base , tomemos como exemplo o próprio Docker, ele se utiliza do Kernel do S.O atual para fazer sua base e então somente importa as Libs necessárias para funcionar corretamente, agora, isso faz alguma ? Não de? A resposta é: **Claro, uma V.M é um novo S.O sobre o sistema base, trazendo todo o seu funcionamento, características e demais, coisa que um container não é, um container somente é parte de um S.O sendo executado para o funcionamento especifico**
+
+Sobre isso, será comentado mais afrente, más pense nisso "Preciso de uma bazuca para caçar coelhos? ou uma pistola de pressão já serve?"
 
 ##### **Título:** Demonstração da diferença em níveis de uma VM e Contianers
 [![c1](c1.jpg "VM vs Containers")](https://www.weave.works/blog/a-practical-guide-to-choosing-between-docker-containers-and-vms)
 ###### **Fonte:** Weave Works, Um guia prático para escolher entre contêineres Docker e VMs
 
-Um exemplo que é sempre visto pela comunidade é "porque vou instalar tudo se só quero um software N", essa é uma das sacadas do container em relação a virtulização, ambientes mais enxutos e menores a qual são criados para propósitos unicos, que possam ser reconstruidos a vontagem e com agilidade.
+Um exemplo que é sempre visto pela comunidade é "porque vou instalar tudo se só quero um software N", está ai o porquê de uma bazuca ou pistola, essa é uma das sacadas do container em relação a virtualização, ambientes mais enxutos e menores a qual são criados para propósitos únicos, que possam ser reconstruídos a vontade e com agilidade.
 
 ___
 
 ### Motivos da virtualização e container
 
-O uso de ambos é por N motivos, testes, montagem de ambientes de produção, escalabilidade, Black-friday e demais, ambientes que os utilizam podem ser melhores gerenciados por motivo de toda automação que ambos trazem.
+O uso de ambos é por N motivos, sendo comumente:
 
-Alguns motivos para seus usos:
+* Montagem de ambientes de testes;
+* Montagem de ambientes de produção;
+* Escalabilidade;
+* Flexibilidade;
+* Black-Friday (verdade!);
+
+
+O uso de ambos facilita a vida do gerente, ambientes do tipo virtualização quando contabilização são mais facilmente gerenciados por haver rotinas para seu controle e por não afeterem diretamente a base a qual estão funcionando.
+
+Alguns outros motivos para seus uso:
 
 * Aplicações tentando sair pela mesma por ao mesmo tempo (deadlock);
 * Se uma aplicação travar o HOST virtual ou container não afeta os demais ou ao HOST hospedero;
 * Criar ambientes com multiplas versões de softwares necessários;
 * Melhor uso do custo por tempo de processamento;
 
-Claro que ambos não são soluções finais para todos os problemas do ambiente, porém são apoiadores de ambientes flexiveis, com seu uso a criação de cluster de máquinas, subir ambientes e demais se tornam mais simples e rápidos;
+Claro que ambos não são soluções finais para todos os problemas, porém são apoiadores de ambientes flexiveis, com seu uso a criação de cluster de máquinas, subir ambientes e demais se tornam mais simples e rápidos;
 
 ___
 
-#### E o motivo de se utilizar o Docker?
+#### Conainer VS V.M?
 
-Aqui entra o motivo de se utilizar Docker em vez da virtualização, um exemplo, uma V.M virtualiza um S.O interno dentro do sistema atual, isso não é desejado por causar cunsumos de recursos, digamos que precisamos somente de um interpretador BASH dentro da V.M e foi instalado o Ubuntu inteiro com o GNOME, sabe aquele container que funcionaria com 256MB de RAM, essa V.M precisaria de uns 2GB de RAM além de mais espaço em disco;
+Aqui entra o motivo de se utilizar conainer em vez da virtualização, um exemplo, uma V.M virtualiza um S.O interno dentro do sistema atual (Isso já foi dito, más é bom repetir), isso não é desejado por causar consumos de recursos não desejados, digamos que precisamos somente de um interpretador BASH dentro da V.M e foi instalado o Ubuntu inteiro com o GNOME, sabe aquele container que funcionaria com 256MB de RAM, essa V.M precisaria de uns 2GB de RAM além de mais espaço em disco;
 
 | Hardware | Ubuntu VM | Ubuntu Container | 
 | --- | --- | --- |
@@ -105,11 +119,13 @@ Aqui entra o motivo de se utilizar Docker em vez da virtualização, um exemplo,
 
 A tabela demonstra um Ubuntu GNOME com todos os seus requisitos sendo atendidos durante a criação da V.M, já o container somente irá trazer o minimo para funcionamento, lembrando que o docker gerencia dinamicamente recursos da máquina para o container, porém é possível travar valores fixos máximos, como o exemplo demonstra acima.
 
-Além de demais vantagens do Docker sobre a virtualização são:
-* Crianção de ambientes;
-* Baixo consumo de recursos de forma inicial;
-* Resositório online de imagens;
+Além de demais vantagens do container sobre a virtualização são:
+* Crianção de ambientes minimalitas;
+* Baixo consumo de recursos como um todo;
+
+Um pouco do Docker sá para dar mais razões:
 * Facilidade de migração de sistemas de uma OS para ourto;
+* Repositório online de imagens para uso;
 
 ___
 
@@ -117,27 +133,34 @@ ___
 
 ##### Falou, falou e falou, más não falou, o que é Docker?
 
-Docker é inicialmente um projeto da empresa criado para automação na criação de ambientes na empresa dotCloud em 2012-2013, após o "BUM" da tecnologia com o Docker, a empresa se renomeou para Docker Inc  e disponibilizou o código-fonte da aplicadação, além da mesma ainda ser uma mantenedora da mesma, o inicialmente foi um conjunto das tecnologias LXC e Linguagem GO, após várias atualizações a Docker Inc largou a base do LXC e migrou para um modelo de prórpia autoria, a libcontainer
+O que tanto queriam, o motivo, como já mencionado o container é somente parte de um S.O sendo executado para uma determinada função, agora qual o motivos de se utilizar o Docker em especifico.
+
+Docker é uma ferramenta que fora criado com o propósito de facilitar a criação de ambientes, em 2012-13 ocorreu o "BUM" da tecnologia  que mesmo não sendo novidade forá algo pegou no gosto da comunidade pel práticidade, a empresa dotCloud que criou essa ferramenta se renomeou-se para Docker Inc e disponibilizou o código-fonte da aplicação além de iniciar uma nova empreitada, ela se tornou mantenedora do Docker-Hub, uma das peças chave da ferramenta Docker, inicialmente o Docker foi um conjunto das tecnologias LXC e Linguagem GO, após várias atualizações a Docker Inc largou a base do LXC e migrou para um modelo de própria autoria, a libcontainer.
 
 ##### Más como ele surgiu?
 
-Inicialente dotcloud era uma empresa para facilitar migrações de clientes a nuvem, assim eles eles usavam o AWS da Amazon para contratar uma máquinas e para instanciar recursos e forma autonoma, eles criaram o Docker, que tomava como tarefa o gerenciamento e criação de conteiners sobre demanda.
+Inicialente dotcloud era uma empresa para facilitar migrações de clientes a nuvem, assim eles usavam o AWS da Amazon para contratar as máquinas necessárias e instanciar os recursos, dessa forma eles criaram o Docker, essa ferramente tomava como tarefa o gerenciamento e criação de conteiners sobre demanda que antes era feita a mão pelos funcionários.
 
 ##### Atualmente
 
-A empresa se renomeou depois do BUM e atualmente é a mantenedora principal do Docker e do Docker HUB, a qual possui serviços e recebe de investimentos e doações para continuar as atividade
+A empresa se renomeou depois do BUM e atualmente é a mantenedora principal do Docker e do Docker HUB, a qual possui serviços e recebe de investimentos e doações para continuar as atividades.
 
 #### Tecnologia
-Ferramentas modernas para deployar e rodar aplicações;
-* **Docker engine:** É o cara que faz o intermedio do sistema e dos containers;
+
+O Docker é um conjunto de ferramentas, sendo essas:
+
+* **Docker engine:** É o cara que faz o intermédio do sistema e dos containers;
 * **Docker compose:** Facilitar a manipulações de multiplos containers de uma vez(orquestra);
-* **Docker swarm:** Multiplos docker para criar um cluster;
-* **Docker hub:** Repositorio com mais de 250 mil imagens de conteiners;
-* **Docker machine:** Instalar e gerenciar hosts virtuais;
+* **Docker swarm:** Multiplos docker para criar clusters;
+* **Docker hub:** Repositorio com mais de 250 mil imagens de conteiners prontas;
+* **Docker machine:** Instala e gerencia hosts virtuais;
 
 ___
 
 #### Requisitos:
+
+Para se utilizar o Docker é necessário:
+
 * Ativar a virtualização na BIOS ou no S.O caso necessário;
 * Instalar o programa do Docker na máquina;
 
@@ -172,13 +195,13 @@ docker --help
 docker-compose --help
 ```
 
-Há, se você quer saber como tal comando funciona, você só precisa como um ```--help``` na frente, exemplo:
+Há, se você quer saber como tal comando funciona, você só precisa colocar um ```--help``` na frente dle, exemplo:
 
 ```
 docker run --help
 ```
 
-O resultado vai ser a tela de instruções e parametros do comando.
+O resultado vai ser a tela de instruções e parâmetros do comando.
 ___
 
 ### root@debian: docker
@@ -351,10 +374,13 @@ Insecure Registries:
 Live Restore Enabled: false
 WARNING: No swap limit support
 ```
+
+Eu não irei explicar sobre as informações do ```info``` por motivos que o mesmo somente traz informações do docker sobre o host, como versão, quantidade atual de containers, imagens e demais.
+
 ___
 ### Iniciando no Docker
 
-Iniciando a demonstração da parte prática do Docker.
+Aqui se inicia a demonstração da parte prática do Docker.
 
 ___
 
@@ -374,13 +400,15 @@ docker run hello-world
 
 **OBS:** Quando você executar o docker vai procurar o container se ele existe na máquina, caso não achar ele baixa o container automaticamente do docker hub.
 
-Outra coisa, podemos decidir que versão baixar de determinado container, como exemplo:
+Outra coisa, podemos decidir que versão baixar de determinado container(claro o mesmo deve ter disponivel no HUB, confira no site do mesmo caso tenha dúvidas), como exemplo:
 
 **Ultima versão do Ubuntu:**
 ```
 docker run ubuntu
 ```
-Ou podemos apontar a versão dele como a ultima assim:
+
+Ou podemos decidir que será usada a ultima versão dele dessa forma:
+
 ```
 docker run ubuntu:latest
 ```
@@ -448,7 +476,7 @@ ___
 
 #### Status
 
-Depois de executar um **RUN** e ter sua saída, o que acontece depois? Para isso execute o comando:
+Depois de executar um **RUN** e ter sua saída, o que irá acontecer depois? Para se ter uma idéia execute este comando:
 
 ```
 docker ps
@@ -462,7 +490,9 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 ```
 
-Está vazia e você provavelmente não entende o que é essa tela, quando se utilizado o comando ```docker ps```, nós é listados todos os containers em ativo no momento atual, isso é, sabe o ```hello-world```, ele já não está mais ativo, para vermos ele podemos executar o:
+Antes de tudo deixei eu dizer, está vazio, não tem nada ai, más o que isso significa?
+
+Quando se utilizado o comando ```docker ps```, nós é listados todos os containers em ativo no momento atual, isso é, sabe o ```hello-world```, ele já não está mais ativo, para então conseguirmos encontrar ele precisamos executar:
 
 ```
 docker ps -a
@@ -476,8 +506,8 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 06ea4331b9d9        hello-world         "/hello"            14 minutes ago      Exited (0) 14 minutes ago                       optimistic_tharp
 ```
 
-**Explicando esse menu:**
-* **CONTAINER ID** -> Numero do container, nome dele, sua identificação;
+**Antes de tudo é mais valido explicar esse menu:**
+* **CONTAINER ID** -> Número do container, sua identificação ID;
 * **IMAGE** -> Container é baseado a qual imagem;
 * **COMMAND** -> Comando que inicia o container;
 * **CREATED** -> A que horas foi criado o container;
@@ -3300,7 +3330,7 @@ Agora vamos para o ultimo, esse aqui você vai gostar:
 
 Aqui temos os:
 
-* ```build``` é a forma de se utilizar um Dockerfile que você criou para subir uma imagem no compose, seus complementos são o ```context``` que irá falar para o compose o caminho do arquivo Dockerfile e o ```dockerfile``` nem precisa ser dito né;
+* ```build``` é a forma de se utilizar um Dockerfile que você criou para subir uma imagem no Compose, seus complementos são o ```context``` que irá falar para o compose o caminho do arquivo Dockerfile e o ```dockerfile``` nem precisa ser dito né;
 * ```volumes``` é o mapeamento de um diretório interno para o diretório dentro do container, exemplo ```./Sociedade/:/root```, isso é, do diretório sociedade para o diretório root dentro do container;
 * ```command``` é a ordenação de operações durante o inicio do container, no caso, uma ordenação de execução de um shellScript via Bash;
 
@@ -3332,7 +3362,7 @@ exemplo_server1_1   /bin/bash   Exit 0
 exemplo_server2_1   /bin/bash   Exit 0
 ```
 
-Acho que você já deve tar meio careca de ver **PS** neste manual, más saiba que o compose tem os mesmo comandos e com as mesmas funções.
+Acho que você já deve estar meio cansado de ver **PS** neste manual ou em ação, más saiba que o Compose tem esse comando também, então paciência, há, ele também funciona da mesma forma que aquele antigo **PS**.
 
 ```
 root@debian:~/exemplo# docker-compose start
@@ -3340,7 +3370,7 @@ Starting server1 ... done
 Starting server2 ... done
 ```
 
-O ```compose start``` reinicia os container que estão parados a partir do docker-compose.yml
+O ```compose start``` reinicia os containers que estão parados ou em pause a partir do docker-compose.yml
 
 ____
 
@@ -3377,22 +3407,27 @@ services:
                         - 8080:80
 ```
 
-Se qualquer um que mexe com compose ver isso, ele vai querer me matar por somente estar subindo um container com o mesmo, más... testes.
+Se qualquer um que mexe com Compose ver isso, ele vai querer me matar por somente estar subindo um container com ele, más... testes.
 
-Se dermos os ```docker-compose build``` neste momento, o sistema irá reclamar que já existe um  server1, veja:
+Se dermos os ```docker-compose build``` neste momento, o sistema irá reclamar que já existe um **server1**, veja:
 
 ```
 root@debian:~/exemplo# docker-compose build
 server1 uses an image, skipping
 ```
 
-Isso porque o **server1** está usando uma outro imagem e ainda existe, para que possamos subir essa nova imagem poderia se criar um novo compose e executar, más vamos matar o antigo e iniciar o novo, para matar o atual, execute o:
+Isso porque o **server1** está usando uma outro imagem que ainda existe, para que possamos subir uma nova imagem, temos duas possíveis escolhas:
+
+* Poderia se criar um novo Compose;
+* Ou matar o antigo e iniciar um novo;
+
+Eu escolhi matar, más como mata? execute o:
 
 ```
 docker-compose down
 ```
 
-Isso irá **MATAR TODOS OS CONTAINERS ATUAIS DO COMPOSE**, só execute esse comando quando tiver certeza absoluta e em vez de fazer isso, você pode só matar o container desejado, exemplo:
+Isso irá **MATAR TODOS OS CONTAINERS ATUAIS DO COMPOSE**, só execute esse comando quando tiver certeza e em vez de fazer isso, você pode só matar o container desejado, exemplo:
 
 ```
 root@debian:~/exemplo# docker-compose kill
@@ -3402,11 +3437,11 @@ Killing exemplo_server1_1 ... done
 Entenda:
 
 * **DOWN** mata todo mundo;
-* **KILL** mata somente os atuais compose;
+* **KILL** mata somente os atuais do Compose executado;
 
 ___
 
-#### Upando denovo
+#### Não é Farm más vamos upar denovo
 
 Vamos dar um **UP** sobre as alterações do container após retirar as antigas dependências:
 
@@ -3464,13 +3499,13 @@ Commercial support is available at
 </html>
 ``` 
 
-Bem, é isso, notemos que o container subiu normal e que podemos até ver o NGINX funcionando na porta 8080 do HOST;
+Bem, é isso, notemos que o container subiu normalmente e que podemos até ver o NGINX funcionando na porta 8080 do HOST;
 
 ___
 
 #### Descanso
 
-Bem estamos perto do fim e bora dar uma pausa... pronto, há esquecia de avisar, lembra o ```ctrl+p+q``` que você usa para sair de um container sem matar ele, bem, funciona no compose tambem, caso você estiver ataxado nele, é só dar esse comando para voltar ao terminal, veja:
+Bem estamos perto do fim e bora dar uma pausa... pronto, há esquecia de avisar, lembra o ```ctrl+p+q``` que você usa para sair de um container sem matar ele, bem, funciona no Compose também, caso você estiver taxado nele, é só dar esse comando para voltar ao terminal, veja:
 
 ```
 root@debian:~/exemplo# docker-compose up
@@ -3534,12 +3569,12 @@ root@debian:~/exemplo# docker-compose ps
 exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
 ```
 
-De quebra toma um ```pause```, ```start```, ```kill``` e ```unpause```
+De quebra toma um ```pause```, ```start```, ```kill``` e ```unpause```:
 
-* ```pause``` para os container's atuais;
-* ```start``` inicia esse container parados;
-* ```kill``` como dito, mata esses containers;
-* ```unpause``` faz exatamente o mesmo do ```start```;
+* ```pause``` pausa os container\s que estão em funcionamento;
+* ```start``` inicia container\s existentes;
+* ```kill``` mata esses containers;
+* ```unpause``` inicia os container\s parados;
 
 Temos também o comando ```restart```, o mesmo irá reiniciar os containers atualmente criados, veja:
 
@@ -3568,4 +3603,4 @@ ___
 
 #### Bem é isso
 
-Obrigado por ter chegado até o fim e espero muito que tenha proveitado sobre esse rápido manual sobre o Docker e o Docker-compose, desculpe pelo erros ortográficos e por fim, volte de vez em quando, vai que eu dou uma atualizado neste manual, bem é isso, agradeço pela atenção e continue com os estudos;
+Obrigado por ter chegado até o fim e espero muito que tenha aproveitado sobre esse rápido manual sobre o Docker e o Docker-Compose, desculpe pelo erros ortográficos e por fim, volte de vez em quando, vai que eu dou uma atualizado neste manual, bem é isso, agradeço pela atenção e continue com os estudos;
