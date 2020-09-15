@@ -1,11 +1,13 @@
 # Docker
 ## Manual simples
+#### Revisão - Versão: 0.0.3
 
 ___
 
 ### Agradecimentos
 
 Esse simples manual foi gerado como um compilado de várias fontes com o intuído de ser um guia e uma referência ao tema, não tomando o escrito como minha própria autoria e sim algo formado como uma junção para a comunidade.
+
 ___
 
 ### Introdução
@@ -107,9 +109,9 @@ Claro que ambos não são soluções finais para todos os problemas, porém são
 
 ___
 
-#### Conainer VS V.M?
+#### Container VS V.M(Virtual Machine)
 
-Aqui entra o motivo de se utilizar conainer em vez da virtualização, um exemplo, uma V.M virtualiza um S.O interno dentro do sistema atual (Isso já foi dito, más é bom repetir), isso não é desejado por causar consumos de recursos não desejados, digamos que precisamos somente de um interpretador BASH dentro da V.M e foi instalado o Ubuntu inteiro com o GNOME, sabe aquele container que funcionaria com 256MB de RAM, essa V.M precisaria de uns 2GB de RAM além de mais espaço em disco;
+Aqui entra o motivo de se utilizar container em vez da virtualização, de forma exemplificada, uma V.M virtualiza um S.O interno dentro do sistema atual **(Isso já foi dito, más é bom repetir)**, assim pode resultar em consumos de recursos não desejados, digamos que precisamos somente de um interpretador BASH dentro da V.M e foi instalado o Ubuntu inteiro com o GNOME, sabe aquele container que funcionaria com 256MB de RAM, essa V.M precisaria de uns 2GB de RAM além de mais espaço em disco;
 
 | Hardware | Ubuntu VM | Ubuntu Container | 
 | --- | --- | --- |
@@ -117,43 +119,47 @@ Aqui entra o motivo de se utilizar conainer em vez da virtualização, um exempl
 | Memória | 4GB | 512MB |
 | Armazenamento | 20GB | 300MB |
 
-A tabela demonstra um Ubuntu GNOME com todos os seus requisitos sendo atendidos durante a criação da V.M, já o container somente irá trazer o minimo para funcionamento, lembrando que o docker gerencia dinamicamente recursos da máquina para o container, porém é possível travar valores fixos máximos, como o exemplo demonstra acima.
+**ATENÇÃO:** A tabela demonstra um Ubuntu GNOME com todos os seus requisitos sendo atendidos durante a criação da V.M.
+
+Enquanto a V.M tem todo o consumo necessário para virtualizar o S.O inteiro o container somente irá trazer o mínimo para funcionamento, lembrando que o docker gerência dinamicamente recursos da máquina **HOST** para o container, porém é possível travar valores fixos máximos, como o exemplo demonstra acima.
 
 Além de demais vantagens do container sobre a virtualização são:
 * Crianção de ambientes minimalitas;
 * Baixo consumo de recursos como um todo;
 
-Um pouco do Docker sá para dar mais razões:
-* Facilidade de migração de sistemas de uma OS para ourto;
+Agora colocando o Docker + container's tem mais algumas razões e motivos, como:
+* Facilidade de migração de sistemas de uma S.O para outro;
 * Repositório online de imagens para uso;
 
 ___
 
 ### Sobre o Docker
 
-##### Falou, falou e falou, más não falou, o que é Docker?
+#### Falou, falou e falou, más não falou, o que é Docker?
 
 O que tanto queriam, o motivo, como já mencionado o container é somente parte de um S.O sendo executado para uma determinada função, agora qual o motivos de se utilizar o Docker em especifico.
 
-Docker é uma ferramenta que fora criado com o propósito de facilitar a criação de ambientes, em 2012-13 ocorreu o "BUM" da tecnologia  que mesmo não sendo novidade forá algo pegou no gosto da comunidade pel práticidade, a empresa dotCloud que criou essa ferramenta se renomeou-se para Docker Inc e disponibilizou o código-fonte da aplicação além de iniciar uma nova empreitada, ela se tornou mantenedora do Docker-Hub, uma das peças chave da ferramenta Docker, inicialmente o Docker foi um conjunto das tecnologias LXC e Linguagem GO, após várias atualizações a Docker Inc largou a base do LXC e migrou para um modelo de própria autoria, a libcontainer.
+Docker é uma ferramenta que fora criado com o propósito de facilitar a criação de ambientes, em 2012-13 ocorreu o ***BUM*** da tecnologia, que mesmo não sendo novidade forá algo pegou no gosto da comunidade pela práticidade oferecida, a empresa DotCloud que criou essa ferramenta se renomeou-se para Docker Inc e disponibilizou a ferramenta para o mercado, além de iniciar uma nova empreitada, ela se tornou mantenedora do Docker-Hub, uma das peças chave da ferramenta Docker, inicialmente o Docker foi um conjunto das tecnologias LXC e Linguagem GO, após várias atualizações a Docker Inc largou a base do LXC e migrou para um modelo de própria autoria, a libcontainer.
 
-##### Más como ele surgiu?
+#### Más como ele surgiu?
 
-Inicialente dotcloud era uma empresa para facilitar migrações de clientes a nuvem, assim eles usavam o AWS da Amazon para contratar as máquinas necessárias e instanciar os recursos, dessa forma eles criaram o Docker, essa ferramente tomava como tarefa o gerenciamento e criação de conteiners sobre demanda que antes era feita a mão pelos funcionários.
+Inicialente DotCloud era uma empresa que tinha como regra de negócio ***facilitar migrações de clientes para a nuvem***, para realizar esssa função eles utilizavam o AWS da Amazon para contratar as máquinas necessárias e instanciar os recursos.
 
-##### Atualmente
+Como forma de automatizar esse processo forá criado o Docker para tornar o processo mais simples e rápido dentro da empresa, a práticidade de automatizar o processo de criação de containers leveou a ganho de vida dentro da equipe, o fato do mesmo ser escrito em linguagem GO é por motivos da mesma ser multiplataforma e possuir desempenho e facilidade de manutenção segundo a própria equipe de desenvolvimento.
 
-A empresa se renomeou depois do BUM e atualmente é a mantenedora principal do Docker e do Docker HUB, a qual possui serviços e recebe de investimentos e doações para continuar as atividades.
+#### Atualmente
+
+A empresa se renomeou depois do ***BUM*** e atualmente é a mantenedora principal do Docker e do Docker HUB, a qual possui serviços e recebe de investimentos e doações para continuar as atividades, alterando sua regra de negócio e tomando o Docker como seu produto principal.
 
 #### Tecnologia
 
 O Docker é um conjunto de ferramentas, sendo essas:
 
-* **Docker engine:** É o cara que faz o intermédio do sistema e dos containers;
-* **Docker compose:** Facilitar a manipulações de multiplos containers de uma vez(orquestra);
-* **Docker swarm:** Multiplos docker para criar clusters;
-* **Docker hub:** Repositorio com mais de 250 mil imagens de conteiners prontas;
-* **Docker machine:** Instala e gerencia hosts virtuais;
+* **Docker engine:** Intermédio entre o sistema **HOST** e os containers;
+* **Docker compose:** Facilitar a manipulações de múltiplos containers de uma vez(orquestrar);
+* **Docker swarm:** Múltiplos container's docker para criação de clusters;
+* **Docker hub:** Repositório com mais de 250 mil imagens de conteiners prontas;
+* **Docker machine:** Instala e gerência hosts virtuais;
 
 ___
 
@@ -164,18 +170,24 @@ Para se utilizar o Docker é necessário:
 * Ativar a virtualização na BIOS ou no S.O caso necessário;
 * Instalar o programa do Docker na máquina;
 
+#### Sacada
+
+O Docker pegou o gosto da comunidade não só pela práticidade que trouxe para a criação de container's, más também pelos requisitos mínimos para seu funcionamento, sendo de forma genérica e necessário em sua maioria um sistema operacinal 64 bits e capacidade de virtualização **(Basicamente quase todo o computador doméstico possui essa técnologia)**.
+
 ___
 
 #### Instalação:
 
-Recomendo seguir esse link para a instalação:
+O Docker está disponível para os principais sistemas do mercado como Windows, Mac, Linux e BSD, dessa forma recomendo seguir o link abaixo que é o manual de instalação da ferramenta, se possível e caso queira, já veja também sobre uma conta no Docker-Hub **(Este será explicado mais a frente)**:
+
 * https://docs.docker.com/get-docker/
+
 
 ___
 
-### Ambiente:
+### Ambiente de testes utilizado:
 
-Versão do S.O utilizado (Debian 10):
+Versão do S.O utilizado (Debian 10.5):
 ```
 Linux version 4.19.0-10-amd64 (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-6)) #1 SMP Debian 4.19.132-1 (2020-07-24)
 ```
@@ -195,18 +207,121 @@ docker --help
 docker-compose --help
 ```
 
-Há, se você quer saber como tal comando funciona, você só precisa colocar um ```--help``` na frente dle, exemplo:
+Há, se você quer saber como tal comando funciona, você só precisa colocar um ```--help``` na frente dele, exemplo:
 
 ```
 docker run --help
 ```
 
-O resultado vai ser a tela de instruções e parâmetros do comando.
+O resultado vai ser a tela de instruções e parâmetros do comando, exemplo a sáida do comando acima é:
+
+```
+root@debian:~# docker run --help
+
+Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+Run a command in a new container
+
+Options:
+      --add-host list                  Add a custom host-to-IP mapping (host:ip)
+  -a, --attach list                    Attach to STDIN, STDOUT or STDERR
+      --blkio-weight uint16            Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
+      --blkio-weight-device list       Block IO weight (relative device weight) (default [])
+      --cap-add list                   Add Linux capabilities
+      --cap-drop list                  Drop Linux capabilities
+      --cgroup-parent string           Optional parent cgroup for the container
+      --cidfile string                 Write the container ID to the file
+      --cpu-period int                 Limit CPU CFS (Completely Fair Scheduler) period
+      --cpu-quota int                  Limit CPU CFS (Completely Fair Scheduler) quota
+      --cpu-rt-period int              Limit CPU real-time period in microseconds
+      --cpu-rt-runtime int             Limit CPU real-time runtime in microseconds
+  -c, --cpu-shares int                 CPU shares (relative weight)
+      --cpus decimal                   Number of CPUs
+      --cpuset-cpus string             CPUs in which to allow execution (0-3, 0,1)
+      --cpuset-mems string             MEMs in which to allow execution (0-3, 0,1)
+  -d, --detach                         Run container in background and print container ID
+      --detach-keys string             Override the key sequence for detaching a container
+      --device list                    Add a host device to the container
+      --device-cgroup-rule list        Add a rule to the cgroup allowed devices list
+      --device-read-bps list           Limit read rate (bytes per second) from a device (default [])
+      --device-read-iops list          Limit read rate (IO per second) from a device (default [])
+      --device-write-bps list          Limit write rate (bytes per second) to a device (default [])
+      --device-write-iops list         Limit write rate (IO per second) to a device (default [])
+      --disable-content-trust          Skip image verification (default true)
+      --dns list                       Set custom DNS servers
+      --dns-option list                Set DNS options
+      --dns-search list                Set custom DNS search domains
+      --entrypoint string              Overwrite the default ENTRYPOINT of the image
+  -e, --env list                       Set environment variables
+      --env-file list                  Read in a file of environment variables
+      --expose list                    Expose a port or a range of ports
+      --group-add list                 Add additional groups to join
+      --health-cmd string              Command to run to check health
+      --health-interval duration       Time between running the check (ms|s|m|h) (default 0s)
+      --health-retries int             Consecutive failures needed to report unhealthy
+      --health-start-period duration   Start period for the container to initialize before starting
+                                       health-retries countdown (ms|s|m|h) (default 0s)
+      --health-timeout duration        Maximum time to allow one check to run (ms|s|m|h) (default 0s)
+      --help                           Print usage
+  -h, --hostname string                Container host name
+      --init                           Run an init inside the container that forwards signals and reaps processes
+  -i, --interactive                    Keep STDIN open even if not attached
+      --ip string                      IPv4 address (e.g., 172.30.100.104)
+      --ip6 string                     IPv6 address (e.g., 2001:db8::33)
+      --ipc string                     IPC mode to use
+      --isolation string               Container isolation technology
+      --kernel-memory bytes            Kernel memory limit
+  -l, --label list                     Set meta data on a container
+      --label-file list                Read in a line delimited file of labels
+      --link list                      Add link to another container
+      --link-local-ip list             Container IPv4/IPv6 link-local addresses
+      --log-driver string              Logging driver for the container
+      --log-opt list                   Log driver options
+      --mac-address string             Container MAC address (e.g., 92:d0:c6:0a:29:33)
+  -m, --memory bytes                   Memory limit
+      --memory-reservation bytes       Memory soft limit
+      --memory-swap bytes              Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+      --memory-swappiness int          Tune container memory swappiness (0 to 100) (default -1)
+      --mount mount                    Attach a filesystem mount to the container
+      --name string                    Assign a name to the container
+      --network string                 Connect a container to a network (default "default")
+      --network-alias list             Add network-scoped alias for the container
+      --no-healthcheck                 Disable any container-specified HEALTHCHECK
+      --oom-kill-disable               Disable OOM Killer
+      --oom-score-adj int              Tune host's OOM preferences (-1000 to 1000)
+      --pid string                     PID namespace to use
+      --pids-limit int                 Tune container pids limit (set -1 for unlimited)
+      --privileged                     Give extended privileges to this container
+  -p, --publish list                   Publish a container's port(s) to the host
+  -P, --publish-all                    Publish all exposed ports to random ports
+      --read-only                      Mount the container's root filesystem as read only
+      --restart string                 Restart policy to apply when a container exits (default "no")
+      --rm                             Automatically remove the container when it exits
+      --runtime string                 Runtime to use for this container
+      --security-opt list              Security Options
+      --shm-size bytes                 Size of /dev/shm
+      --sig-proxy                      Proxy received signals to the process (default true)
+      --stop-signal string             Signal to stop a container (default "SIGTERM")
+      --stop-timeout int               Timeout (in seconds) to stop a container
+      --storage-opt list               Storage driver options for the container
+      --sysctl map                     Sysctl options (default map[])
+      --tmpfs list                     Mount a tmpfs directory
+  -t, --tty                            Allocate a pseudo-TTY
+      --ulimit ulimit                  Ulimit options (default [])
+  -u, --user string                    Username or UID (format: <name|uid>[:<group|gid>])
+      --userns string                  User namespace to use
+      --uts string                     UTS namespace to use
+  -v, --volume list                    Bind mount a volume
+      --volume-driver string           Optional volume driver for the container
+      --volumes-from list              Mount volumes from the specified container(s)
+  -w, --workdir string                 Working directory inside the container
+```
+
 ___
 
 ### root@debian: docker
 
-Abaixo está a saída de paramentros para ações no Docker, digitar ```Docker``` ou ```docker --help```, gera a mesma saída de comando, Ex:
+Abaixo está a saída de parâmentros para ações no Docker, digitar ```docker``` ou ```docker --help```, ambos geram a mesma saída, veja:
 
 ```
 root@debian:~# docker
@@ -289,11 +404,15 @@ Commands:
 Run 'docker COMMAND --help' for more information on a command.
 ```
 
-Não pretendo falar de todos os comandos e sim dos que mais utilizo em prática, esse manual será atualizado com o tempo para a adição de alterações e reformas, nesses tempos, se necessário, será criada explicações e exemplos de comandos ainda não listados.
+**AVISO:** Não pretendo falar de todos os comandos e sim dos que mais utilizo em prática por mimi, esse manual será atualizado com o tempo e passará por diversas alterações e  reformas, nesses tempos e se necessário, será criada explicações e exemplos de comandos ainda não listados.
 
 ___
 
 #### Informação do Docker
+
+Informações sobre o Docker que está sendo utilizado são extremamente importantes para dois tipos de casos principais:
+* Aquele erro chato no Docker caso aconteça e necessita da ajuda da comunidade para resolver;
+* Saber se determinada versão do Docker possui ferramentas desejada, Exemplo deste foi quando o Docker começou a implementar gêrenciamento do **POOL** de hardware que requisititava de determinada mínima versão.
 
 Listar a versão do docker:
 ```
@@ -375,56 +494,68 @@ Live Restore Enabled: false
 WARNING: No swap limit support
 ```
 
-Eu não irei explicar sobre as informações do ```info``` por motivos que o mesmo somente traz informações do docker sobre o host, como versão, quantidade atual de containers, imagens e demais.
+De forma simples o  ```info``` literalmente traz informações do Docker sobre o **HOST**, como:
+* Versão do S.O em ```Kernel Version e Operating System```;
+* Hardware em ```Architecture, CPUs e Total Memory```;
+* Quantidade de Imagens que o **HOST** possui em ```Images```;
+* Quantidade de containers totais do **HOST** como ```Containers```;
+* Diretório Root do Docker (Onde o Docker e as imagens ficam dentro do **HOST**) em ```Docker Root Dir```;
+
+Além de outras mais informações que podem ser importantes ou não dependente do desejo do dono do **HOST**.
 
 ___
 ### Iniciando no Docker
 
-Aqui se inicia a demonstração da parte prática do Docker.
+Aqui se inicia a demonstração mais prática do Docker.
 
 ___
 
 #### Olha o hello world
 
-Executando um hello world:
+Vamos ao famoso "Executando hello world"... Não Docker não é uma linguagem de programação, o que será feito é, será requisitada o container que traga justamente o "hello-world" a nós, **Exemplo**:
 
 ```
 docker run hello-world
 ```
 
-**Explicando:**
+**Explicando o comando:**
 
 | docker | run | hello-world | 
 | --- | --- | --- |
 | Chamando o programa | Parametro para ação, no caso um executar | Imagem que quero executar |
 
-**OBS:** Quando você executar o docker vai procurar o container se ele existe na máquina, caso não achar ele baixa o container automaticamente do docker hub.
+**OBS:** Quando você executar o docker run, ele vai procurar se existe imagens dentro do **HOST** para a criação do container, caso não achar, ele baixa o container automaticamente do Docker-Hub.
 
-Outra coisa, podemos decidir que versão baixar de determinado container(claro o mesmo deve ter disponivel no HUB, confira no site do mesmo caso tenha dúvidas), como exemplo:
+Outra coisa, podemos decidir que versão baixar de determinado container(claro o mesmo deve ter disponivel no HUB, confira no site do mesmo caso tenha dúvidas, olha o link aqui: https://hub.docker.com/).
+
+Veja agora um pouco sobre versionamento de containers:
 
 **Ultima versão do Ubuntu:**
 ```
 docker run ubuntu
 ```
 
-Ou podemos decidir que será usada a ultima versão dele dessa forma:
+Esse comando é basicamente o mesmo que:
 
 ```
 docker run ubuntu:latest
 ```
 
-**Ou podemos usar uma versão antiga do Ubuntu:**
+Más o que é isso? Bem, quando executado o ```run``` se a versão de uma imagem na frente do desejado, ele traz o ```latest``` da versão, a qual é a ultima versão do container, más se queremos outra versão, temos que fazer isso:
+
 ```
 docker run ubuntu:xenial
 ```
 
-A decisão da versão a se trabalhar como base é a cargo da pessoa que decide montar o ambiente, o DockerHub possui algumas versões de determinados S.O prontas que podem ser ou não de distros oficiais, no caso do Ubuntu, é uma distro mantida pela própria Canonical.
+Quando se usado os ```:``` na frente da imagem do container, você pode escolher a versão da imagem, contanto que exista a versão do Hub ou de uma imagem compartilhada.
+
+A decisão da versão a se trabalhar como base é a cargo da pessoa que decide montar o ambiente, o HUb possui algumas versões de determinados S.O prontas que podem ser ou não de distros oficiais, no caso do Ubuntu, é uma distro mantida pela própria Canonical.
 
 ____
 
 #### Voltando ao hello-world
 
-**A execução de um container, no caso um hello-world latest:**
+Quando executado o ```hello-world``` ou ```hello-world:latest``` a saída inicial será esta:
 
 ```
 root@teste-teste:/home/guilherme# docker run hello-world
@@ -437,6 +568,8 @@ Status: Downloaded newer image for hello-world:latest
 
 **Explicando:**
 
+O que está sendo realizado é o **PULL** das camadas do container **hello-world**, após essa parte terminar, será executado o container em si, más o que é tudo isso? Veja:
+
 * **Comando** -> root@teste-teste:/home/guilherme# docker run hello-world
 * **Procura interna** -> Unable to find image 'hello-world:latest' locally
 * **Achando no docker hub** -> latest: Pulling from library/hello-world
@@ -445,7 +578,7 @@ Status: Downloaded newer image for hello-world:latest
     * Digest: sha256:2557e3c07ed1e38f26e389462d03ed943586f744621577a99efb77324b0fe535
 * **Status** -> Status: Downloaded newer image for hello-world:latest
 
-**A saída da crianção do container docker hello-world:**
+Agora vem a real saída do container:
 
 ```
 Hello from Docker!
@@ -470,11 +603,12 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
-Agora é a hora dos **MÁS!**
-
+Agora é hora de mostrar o **MAIS e MÁS** dessa operação.
 ___
 
 #### Status
+
+Agora está na hora do **MAIS!**
 
 Depois de executar um **RUN** e ter sua saída, o que irá acontecer depois? Para se ter uma idéia execute este comando:
 
@@ -482,7 +616,7 @@ Depois de executar um **RUN** e ter sua saída, o que irá acontecer depois? Par
 docker ps
 ```
 
-Após você executar o mesmo, terá a bela surpresa dessa tela:
+Agora veja a saída do mesmo e não entenda nada:
 
 ```
 root@debian:~# docker ps
@@ -492,7 +626,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 Antes de tudo deixei eu dizer, está vazio, não tem nada ai, más o que isso significa?
 
-Quando se utilizado o comando ```docker ps```, nós é listados todos os containers em ativo no momento atual, isso é, sabe o ```hello-world```, ele já não está mais ativo, para então conseguirmos encontrar ele precisamos executar:
+Quando se utilizado o comando ```docker ps```, nós é listados todos os containers em ativo no momento atual, isso é, sabe o ```hello-world``` que você acabou de executar, ele já não está mais ativo, para então conseguirmos encontrar ele precisamos executar:
 
 ```
 docker ps -a
@@ -506,7 +640,15 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 06ea4331b9d9        hello-world         "/hello"            14 minutes ago      Exited (0) 14 minutes ago                       optimistic_tharp
 ```
 
-**Antes de tudo é mais valido explicar esse menu:**
+Agora está na hora do **MÁS!**
+
+Antes de tudo vamores explicar este menu para que não aja confusão, veja:
+
+```
+root@debian:~# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+```
+
 * **CONTAINER ID** -> Número do container, sua identificação ID;
 * **IMAGE** -> Container é baseado a qual imagem;
 * **COMMAND** -> Comando que inicia o container;
@@ -514,17 +656,22 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 * **STATUS** -> O estado do container;
 * **PORTS** -> Portas que o container está utilizando para saída;
 * **NAMES** -> Nome RANDOM que o Docker dá para o container criado;
+____
 
-**Agora explicando o docker ps**:
+#### docker ps
+##### Você vai enjoar de tanto que vai usar ou ver!
 
 Docker ps é um comando para listar os container's, o mesmo possui parametros para se realizar filtros e demais, Ex:
 
-* **docker ps** -> Somente lista os containers em funcionamento;
-* **docker ps -a** -> Lista todos os containers existentes nos host, não importando seus status;
+* ```docker ps``` -> Somente lista os containers em funcionamento;
+* ```docker ps -a``` -> Lista todos os containers existentes nos host, não importando seus status;
 
 Agora temos mais algums opções que podemos ver com o ```docker ps --help```:
 
+
+**Original:**
 ```
+
 root@debian:~# docker ps --help
 
 Usage:  docker ps [OPTIONS]
@@ -532,29 +679,56 @@ Usage:  docker ps [OPTIONS]
 List containers
 
 Options:
-  -a, --all             Show all containers (default shows just running)                      Mostrar todos os contêineres (o padrão mostra apenas em execução)                  
-  -f, --filter filter   Filter output based on conditions provided                            Filtre a saída com base nas condições fornecidas                       
-      --format string   Pretty-print containers using a Go template                           Recipientes com impressão bonita usando um modelo Go                       
-  -n, --last int        Show n last created containers (includes all states) (default -1)     Mostrar n últimos contêineres criados (inclui todos os estados) (padrão -1)
-  -l, --latest          Show the latest created container                                     includes all states         
-      --no-trunc        Don't truncate output                                                 Não truncar a saída                       
-  -q, --quiet           Only display numeric IDs                                              Exibir apenas IDs numéricos
-  -s, --size            Display total file sizes                                              Exibir o tamanho total dos arquivos
+  -a, --all             Show all containers (default shows just running)
+  -f, --filter filter   Filter output based on conditions provided
+      --format string   Pretty-print containers using a Go template
+  -n, --last int        Show n last created containers (includes all states) (default -1)
+  -l, --latest          Show the latest created container (includes all states)
+      --no-trunc        Don't truncate output
+  -q, --quiet           Only display numeric IDs
+  -s, --size            Display total file sizes
 ```
-###### Tradução: Google Tradutor, Windows tradutor ou meu próprio inglês;
 
+**Traduzido:**
+```
+root@debian:~# docker ps --ajuda
+
+Uso: docker ps [OPÇÕES]
+
+Listar contêineres
+
+Opções:
+  -a, --all Mostrar todos os recipientes (o padrão mostra apenas a execução)
+  -f, -filtro filtrar saída do filtro com base nas condições fornecidas
+      --sequência de formato Recipientes de impressão bonita usando um modelo Go
+  -n, --última int Mostrar n últimos recipientes criados (inclui todos os estados) (padrão -1)
+  -l, --mais recente Mostre o último contêiner criado (inclui todos os estados)
+      --no-trunc Não truncate saída
+  -q, --silencioso Apenas exibir IDs numéricos
+  -s, tamanho -tamanho Exibir tamanhos totais de arquivos
+```
+
+O **PS** é uma caixinha de ferramentas que será muito bem usada, aqui listamos todos os containers, seus status, tamanho dos mesmo e demais, isso pode ser aproveitado futuramente e vai ser... vai por mim.
 
 ___
 
 ### Agora, executando um novo container
 
-Para se executar um novo container, pode-se utilizar o mesmo ```docker run hello-world```, ele vai criar um novo container sobre a imagem já utilizada, subir, executar sua função e fechar, ou se pode subir um novo container diferente, ex:
+Para se executar um novo container, pode-se utilizar o mesmo ```docker run hello-world```, a imagem utilizada fica dentro do host entao é possível utilizar a mesma a qualquer momento.
+
+No caso de executar novamente esse imagem, ela vai seguir o seguinte ciclo:
+* Requisita;
+* Liga o container;
+* Printa a mensagem;
+* Fecha o container;
+
+Agora vamos criar um novo container só porque eu quero, veja vamos fazer um "Hello world" defirente do apresentado:
 
 ```
 docker run ubuntu echo "hello world"
 ```
 
-Más se você executar esse cara, você vai ter o mesmo resultado do ```hello-world```, ele executa e some, exemplo:
+Veja a saída dele no terminal:
 
 ```
 root@debian:~# docker run ubuntu echo "hello world"
@@ -569,15 +743,28 @@ Status: Downloaded newer image for ubuntu:latest
 hello world
 ```
 
-Sobre o que você está vendo eu vou explicar em parte, primeiramente, você precisa ter em mente o conceito de camadas que o Docker utiliza para execução de suas imagens... Opa, acho que também nem expliquei o que é imagens né... Tá, você já sentiu o gostinho do Docker, tá na hora de você sair mais sobre ele.
+**Atenção:** Se você der um ```ps``` neste cara ele simplesmente não vai aparecer por motivos que ele já fez seu ciclo, então de um ```ps -a``` para conseguir ver ele.
 
+Agora a algo que precisa ser explicado para se entender um dos melhores conceitos do docker que fica neste exato ponto.
+
+```
+54ee1f796a1e: Pull complete
+f7bfea53ad12: Pull complete
+46d371e02073: Pull complete
+b66c17bbf772: Pull complete
+```
+Este ponto é o conceito de camadas e **POR QUÊ EU NÃO EXPLIQUEI ISSO ANTES!!!**
+
+Siga abaixo para toda a explicação teórica sobre o conceito de camadas e que com certeza você vai achar legal... É necessário esse entendimento para saber gerênciar melhor os containers em disposição.
 ___
 
 #### O conceito de camadas
 
-O docker funciona sobre um sistema de camadas de imagens, alimentadas por um sistema de PULL, quanto mais completa for a imagem mais pull's ela vai precisar ter, um exemplo disso é a imagem **ubuntu** que forá executado acima, ela precisou de 4 pull's para seu funcionamento, já o **hello-world** necessitou de somente 1 pull.
+Os containers docker funcionam sobre camadas de imagens, alimentadas por um sistema de **PULL**, quanto mais completa for a imagem mais **PULL'S** se precisa ter, um exemplo disso é a imagem **UBUNTU** que forá executado acima, ela precisou de 4 pull's para seu funcionamento, já o **hello-world** necessitou de somente 1 pull.
 
-Cada pull é uma camada, essa uma camada é parte do funcionamento de uma imagem container e a mesma pode ser vária, por exemplo, posso baixar uma camada de web server e demais outros, agora um exemplo legal de como o Docker trata cada container como isolado, más não as camadas que foram as imagens:
+Cada pull é uma camada, essa uma camada é parte do funcionamento de uma imagem container e a mesma pode se váriar, por exemplo, posso baixar uma camada de web server e demais outros, agora um exemplo legal de como o Docker trata cada container como isolado, más não as camadas que foram as imagens.
+
+**Exemplo:**
 
 **1° Container:**
 * Precisou baixar o container que possue 5 camadas, isso é 5 pulls;
@@ -597,26 +784,23 @@ ___
 
 #### Somente leitura
 
-Como dito o Docker trabalha sobre um sistema de download de camadas para montar uma imagem, quando o mesmo existe ele evita o download para evitar "gastos" denecessários para ambos os lados, porém a forma de manter a integridade dessas camadas é as travando, isso é, elas são só para leitura e não para a escrita, quando o docker precisar realizar alterações, ele cria uma camada acima das atuais e inicia as alterações nela.
+Como dito o Docker trabalha sobre um sistema de download de camadas para montar uma imagem, quando o mesmo existe, ele não realiza o download para evitar "gastos" denecessários para ambos os lados, porém a forma de manter a integridade dessas camadas é as travando, isso é, elas são só para leitura e não para a escrita, quando o docker precisar realizar alterações, ele cria uma camada acima das atuais e inicia as alterações nela.
 
-###### Más o que isso me afeta?
+##### **Título:** Demonstração sobre as camadas de leitura e escrita do Docker Container
+[![2](2.png "Camadas Docker")](https://www.mundodocker.com.br/como-funciona-filesystem-docker/)
+###### **Fonte:** Mundo Docker, Como funciona o FileSystem do Docker container
 
-Bem, vamos supor que você subiu um container, fez todas as alterações e depois você saiu do container ou ele parou de funcionar... VOCÊ PERDEU TUDO O QUE FEZ!!!! Sério, como dito, ele cria uma camada para escrita sobre as de leitura, porém, ele não salva essa camada, assim é necessário executar um ```build``` sobre a imagem atual para criar a imagem com essas alterações **personalizadas**.
+&nbsp;
+
+#### Más o que isso afeta?
+
+Bem, vamos supor que você subiu um container, fez todas as alterações e depois você saiu do container ou ele parou de funcionar... **VOCÊ PERDEU TUDO O QUE FEZ!!!!**... Sério, você se deu muito mal, o motivo disso é que ele cria uma camada para escrita sobre as de leitura, porém, ele não salva essa camada, assim é necessário executar um ```build``` sobre a imagem atual para criar a imagem com essas alterações **personalizadas**, resultando em:
+
+* **Base** -> Camada de leitura;
+* **Alterar** -> Camada de escrita;
 
 
-O nome dessa camada é **Read/write layer**, um container é formado de pulls que são camadas **READ** e quando executados como um container **RUN**, se cria uma camada **WRITE** para o usuário se trabalhar.
-
-___
-
-#### Descanso
-
-Se você leu até aqui, entenda o que você acabou de ler e descance um pouco, esses conceitos são simples, porém são fundamentais para se usar o Docker.
-
-___
-
-#### Voltando
-
-Agora com o conceito de imagens e pull's firmado, vamos a mais alguns comandinhos.
+De forma resumida as camadas funcionam **Read/write**, um container é formado de pulls que são camadas **READ** e quando executados como um container **RUN**, se cria uma camada **WRITE** para o usuário se trabalhar.
 
 ___
 
@@ -646,7 +830,7 @@ root@debian:~# docker run ubuntu echo "teste"
 teste
 ```
 
-Incrivél!!!! Não, ata, sei, quer mais interação, então vá para dentro do container, só que antes de tudo **NÃO SE DESESPERE NÃO DE UM EXIT OU SHUTDOWN PARA SAIR DO CONTAINER** só continue a ler.
+Incrivél!!!! Não, ata, sei, quer mais interação, então vá para dentro do container, só que antes de tudo **NÃO SE DESESPERE!!! NÃO DE UM EXIT OU SHUTDOWN PARA SAIR DO CONTAINER!!!** só continue a ler.
 
 Como interagir com o container:
 ```
@@ -667,14 +851,15 @@ root@debian:~# ls /
 bin  boot  dev  etc  home  initrd.img  initrd.img.old  lib  lib32  lib64  libx32  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var  vmlinuz  vmlinuz.old
 ```
 
-**Ubuntu container:**
+**Ubuntu CONTAINER:**
 ```
 root@2b839d07bfab:/# ls /
 bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 ```
 
 Vê alguma diferença?
-Com isso podemos notar que ambos os ambientes são separados, isso traz segurança a você pois sabe que um não afeta o outro, pelo menos não nessa fase inicial.
+&nbsp;
+Com isso podemos notar que ambos os ambientes são separados, isso traz segurança a você, pois sabe que um não afeta o outro, pelo menos não nessa fase inicial.
 
 ___
 
@@ -700,7 +885,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 #### Pera, voltando ao problema
 
-Para sair do container atual, aperte:
+Para sair do container a qual você está interagindo por dentro, aperte:
 
 ```
 ctrl + p + q
@@ -718,16 +903,64 @@ root@5d4a35d4e367:/#
 
 Más o que foi isso tudo:
 
-* CTRL+D+Q deixa você sair do container atual e voltar para seu HOST;
+* ```ctrl + p + q``` deixa você sair do container atual e voltar para seu HOST;
 * ```docker attach``` é se atrelar a determinado container em execução;
 
 Com essas duas opções você consegue entrar e sair de um container sem afetar o funcionamento do mesmo.
+
+Há, de você der o ```ctrl + d```, você mata o container tá, veja:
+
+```
+root@debian:~# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+67265a9e5a62        ubuntu              "/bin/bash"         6 seconds ago       Up 5 seconds                            peaceful_rosalind
+root@debian:~# docker attach 67265a9e5a62
+root@67265a9e5a62:/# exit
+root@debian:~# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+```
+
+____
+
+#### Attach
+
+O ```attach``` acabou de ser usado e como dito, ele atacha o terminal dentro do terminal do container e como já foi visto o ```ps```, vamos dar um ```--help``` no ```attach```, veja:
+
+**Original:**
+```
+root@debian:~# docker attach --help
+
+Usage:  docker attach [OPTIONS] CONTAINER
+
+Attach local standard input, output, and error streams to a running container
+
+Options:
+      --detach-keys string   Override the key sequence for detaching a container
+      --no-stdin             Do not attach STDIN
+      --sig-proxy            Proxy all received signals to the process (default true)
+```
+
+**Tradução:**
+```
+root@debian:~# docker attach --help
+
+Uso: docker attach [OPÇÕES] CONTAINER
+
+Conecte fluxos de entrada, saída e erro padrão locais a um recipiente em execução
+
+Opções:
+      --desprender-teclas sequência Anular a sequência de teclas para desapegar um recipiente
+      --no-stdin Não anexe STDIN
+      --sig-proxy Proxy todos receberam sinais para o processo (padrão verdadeiro)
+```
+
+Sinceramente nunca usei os demais do ```attach```, então irei parar neste ponto.
 
 ___
 
 #### Pulo do gato no RUN
 
-Existe formas de manter um container executando, sem precisar se atrelar ao mesmo, esse é o ```-d``` ou modo detached, o container ainda continua funcionado, porém você se mantém no seu terminal;
+Existe formas de manter um container executando, sem precisar se atrelar ao mesmo, esse é o ```-d``` ou modo **detached**, o container ainda continua funcionado, porém você se mantém no seu terminal;
 
 Agora para dar um pequeno susto, olhe o ```--help``` de um ```docker run```:
 
@@ -937,42 +1170,7 @@ Opções:
   -w, --workdir string Diretório de trabalho dentro do contêiner
 ```
 
-Notemos que existem vários parametros que permitem configurações personalizadas para os mesmo.
-
-___
-
-#### Attach
-
-Attach ou anexe é uma opção que permite você a se atrelar dentro de um container.
-
-**Original:**
-```
-Usage:  docker attach [OPTIONS] CONTAINER
-
-Attach local standard input, output, and error streams to a running container
-
-Options:
-      --detach-keys string   Override the key sequence for detaching a container
-      --no-stdin             Do not attach STDIN
-      --sig-proxy            Proxy all received signals to the process (default true)
-
-
-Uso: docker attach [OPTIONS] CONTAINER
-```
-
-**Traduzido:**
-```
-Uso: docker attach [OPTIONS] CONTAINER
-
-Anexe entrada, saída e fluxos de erro padrão locais a um contêiner em execução
-
-Opções:
-      --detach-keys string Substitui a sequência de teclas para desanexar um contêiner
-      --no-stdin Não anexar STDIN
-      --sig-proxy Proxy todos os sinais recebidos para o processo (padrão verdadeiro)
-
-Uso: docker attach [OPTIONS] CONTAINER
-```
+Notemos que existem vários parametros que permitem configurações personalizadas para os mesmo, alguns destes são explicados e usados ao longo do manual, partiu!
 
 ___
 
@@ -1750,7 +1948,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 dfd386e35947        4b22027ede29        "/bin/bash"         12 hours ago        Exited (0) 12 hours ago                         brave_mahavira
 ```
 
-#### Um pequeno a mais
+#### Um extra
 
 Dá para empilhar mais de uma imagem para se detelar de uma vez, exemplo:
 
@@ -1762,7 +1960,7 @@ Deleted: sha256:ac4ac064b064c78b7d65168e93b3ce3b07b2fd8d85c9a7e11d2eb96b9f92bca0
 
 ___
 
-#### Por fim do delete
+#### Por fim que deletes existem?
 
 * **RM** é para deletar um container;
 * **RMI** é para deletar uma imagem; 
@@ -3523,6 +3721,9 @@ root@debian:~/exemplo# docker-compose ps
 ---------------------------------------------------------------------------------
 exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
 ```
+
+
+Pausa para o café...
 
 ____
 
