@@ -1925,9 +1925,68 @@ O que aconteceu aqui? Vou explicar em pontos:
 * Quando foi ordenada a criação de um novo container **ubuntu**, o docker falou que não encontrou a imagem, porém afirmou que os PULL's já existiam, no caso, esses PULL's vieram dos containers parados que são camadas de leitura;
 * Após afirmar o download da imagem, as referências perdidas foram colocadas novamente;
 
+____
+
+##### Agora só faz download
+
+Bem, vimos tudo isso más, até agora precisamos fazer o ```run``` para obtermos a imagem, vamos fazer somente o Downlaod desta imagem sem executar nenhum container, veja:
+
+```
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+
+C:\Users\teste>docker pull debian
+Using default tag: latest
+latest: Pulling from library/debian
+57df1a1f1ad8: Pull complete
+Digest: sha256:439a6bae1ef351ba9308fc9a5e69ff7754c14516f6be8ca26975fb564cb7fb76
+Status: Downloaded newer image for debian:latest
+docker.io/library/debian:latest
+
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+debian              latest              f6dcff9b59af        6 days ago          114MB
+```
+
+Existe o ```--help``` deste cara, veja:
+
+**Original:**
+```
+C:\Users\teste>docker pull --help
+
+Usage:  docker pull [OPTIONS] NAME[:TAG|@DIGEST]
+
+Pull an image or a repository from a registry
+
+Options:
+  -a, --all-tags                Download all tagged images in the repository
+      --disable-content-trust   Skip image verification (default true)
+      --platform string         Set platform if server is multi-platform
+                                capable
+  -q, --quiet                   Suppress verbose output
+```
+
+**Traduzido:**
+```
+C:\Usuários\teste>docker pull --help
+
+Uso: docker pull [OPÇÕES] NOME [:TAG|@DIGEST]
+
+Puxe uma imagem ou um repositório de um registro
+
+Opções:
+  -a, --todas as tags Baixe todas as imagens marcadas no repositório
+      -desativar-desativar-confiança de conteúdo Pular verificação de imagem (padrão verdadeiro)
+      --plataforma string Set plataforma se servidor for multiplataforma
+                                Capaz
+  -q, --tranquilo Suprimir saída verbose
+```
+
+____
+
 ##### Limpar todas as imagens
 
-Lembra aqueles comandos que limpam todos os containers? Tem um maroto também para as imagens:
+Lembra aqueles comandos que limpam todos os containers? Tem um maroto também para as imagens, só lembrando que existem outras formas como o uso de ```prune```, más isso fica mais adiante, de uma olhada neste abaixo:
 
 ```
 docker rmi -f $(docker images -q)
@@ -1998,21 +2057,21 @@ ___
 Usar o prune é o mesmo que fazer a limpeza de primaverá dentro do sistema, em alguma hora, se você tiver gosto claro, o **HOST** vai ficar cheio de imagens, containers e demais, dessa forma precisa se fazer uma limpa, por esse motivo existe o **PRUNE**, veja a limpeza de imagens:
 
 ```
-C:\Users\guilhermebrechot>docker ps
+C:\Users\teste>docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 f2bf74394b40        ubuntu              "/bin/bash"         9 minutes ago       Up 9 minutes                            compassionate_ardinghelli
 
-C:\Users\guilhermebrechot>docker ps -a
+C:\Users\teste>docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 f2bf74394b40        ubuntu              "/bin/bash"         9 minutes ago       Up 9 minutes                            compassionate_ardinghelli
 
-C:\Users\guilhermebrechot>docker images
+C:\Users\teste>docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
 centos              latest              0d120b6ccaa8        5 weeks ago         215MB
 hello-world         latest              bf756fb1ae65        8 months ago        13.3kB
 
-C:\Users\guilhermebrechot>docker image prune -a
+C:\Users\teste>docker image prune -a
 WARNING! This will remove all images without at least one container associated to them.
 Are you sure you want to continue? [y/N] y
 Deleted Images:
@@ -2027,7 +2086,7 @@ deleted: sha256:291f6e44771a7b4399b0c6fb40ab4fe0331ddf76eda11080f052b003d96c7726
 
 Total reclaimed space: 215.1MB
 
-C:\Users\guilhermebrechot>docker images
+C:\Users\teste>docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
 ```
@@ -2036,7 +2095,7 @@ Agora olha o ```--help``` desse cara:
 
 **Original:**
 ```
-C:\Users\guilhermebrechot>docker image prune --help
+C:\Users\teste>docker image prune --help
 
 Usage:  docker image prune [OPTIONS]
 
@@ -2050,7 +2109,7 @@ Options:
 
 **Traduzido:**
 ```
-C:\Usuários\guilhermebrechot>pod de imagem docker --ajuda
+C:\Usuários\teste>pod de imagem docker --ajuda
 
 Uso: podar imagem docker [OPÇÕES]
 
@@ -2067,24 +2126,24 @@ O **PRUNE** images é para a remoção de imagens não utilizadas no momento, co
 Podemos limpar também os containers que não estão em uso como:
 
 ```
-C:\Users\guilhermebrechot>docker run ubuntu
+C:\Users\teste>docker run ubuntu
 
-C:\Users\guilhermebrechot>docker ps -a
+C:\Users\teste>docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
 c9a36e3b49ed        ubuntu              "/bin/bash"         4 seconds ago       Exited (0) 3 seconds ago                       determined_wu
 f2bf74394b40        ubuntu              "/bin/bash"         18 minutes ago      Up 18 minutes                                  compassionate_ardinghelli
 
-C:\Users\guilhermebrechot>docker ps
+C:\Users\teste>docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 f2bf74394b40        ubuntu              "/bin/bash"         18 minutes ago      Up 18 minutes                           compassionate_ardinghelli
 
-C:\Users\guilhermebrechot>docker container prune -f
+C:\Users\teste>docker container prune -f
 Deleted Containers:
 c9a36e3b49ede60d60bd240dac6274c3485c18a7c4f21e0b649a55018aaf5453
 
 Total reclaimed space: 0B
 
-C:\Users\guilhermebrechot>docker ps -a
+C:\Users\teste>docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 f2bf74394b40        ubuntu              "/bin/bash"         18 minutes ago      Up 18 minutes                           compassionate_ardinghelli
 ```
@@ -2093,7 +2152,7 @@ Olha mais um ```--help``` para a conta:
 
 **Original:**
 ```
-C:\Users\guilhermebrechot>docker container prune --help
+C:\Users\teste>docker container prune --help
 
 Usage:  docker container prune [OPTIONS]
 
@@ -2106,7 +2165,7 @@ Options:
 
 **Traduzido:**
 ```
-C:\Usuários\guilhermebrechot>pod de contêiner docker --ajuda
+C:\Usuários\teste>pod de contêiner docker --ajuda
 
 Uso: podar o contêiner docker [OPÇÕES]
 
@@ -2120,19 +2179,19 @@ Opções:
 Agora vem a limpeza de primavera utilizando o o **SYSTEM**, veja:
 
 ```
-C:\Users\guilhermebrechot>docker ps
+C:\Users\teste>docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 f2bf74394b40        ubuntu              "/bin/bash"         20 minutes ago      Up 20 minutes                           compassionate_ardinghelli
 
-C:\Users\guilhermebrechot>docker ps -a
+C:\Users\teste>docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 f2bf74394b40        ubuntu              "/bin/bash"         20 minutes ago      Up 20 minutes                           compassionate_ardinghelli
 
-C:\Users\guilhermebrechot>docker images
+C:\Users\teste>docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
 
-C:\Users\guilhermebrechot>docker run -d hello-world
+C:\Users\teste>docker run -d hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
 0e03bdcc26d7: Pull complete
@@ -2140,20 +2199,20 @@ Digest: sha256:4cf9c47f86df71d48364001ede3a4fcd85ae80ce02ebad74156906caff5378bc
 Status: Downloaded newer image for hello-world:latest
 c13b82ab292e196041eaeee1f625534162d305a7c9e347745dc8b99f130592c1
 
-C:\Users\guilhermebrechot>docker run ubuntu
+C:\Users\teste>docker run ubuntu
 
-C:\Users\guilhermebrechot>docker ps -a
+C:\Users\teste>docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
 9f67ca7ae4ce        ubuntu              "/bin/bash"         5 seconds ago       Exited (0) 3 seconds ago                        suspicious_haibt
 c13b82ab292e        hello-world         "/hello"            17 seconds ago      Exited (0) 16 seconds ago                       inspiring_meitner
 f2bf74394b40        ubuntu              "/bin/bash"         20 minutes ago      Up 20 minutes                                   compassionate_ardinghelli
 
-C:\Users\guilhermebrechot>docker images
+C:\Users\teste>docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
 hello-world         latest              bf756fb1ae65        8 months ago        13.3kB
 
-C:\Users\guilhermebrechot>docker system prune -af
+C:\Users\teste>docker system prune -af
 Deleted Containers:
 9f67ca7ae4ce29bb357e7526946e22f881421a9c9d39c8a5284ef8b41310502f
 c13b82ab292e196041eaeee1f625534162d305a7c9e347745dc8b99f130592c1
@@ -2171,7 +2230,7 @@ Com isso foram limpas imagens e containers não utilizados no momento, veja o ``
 
 **Original:**
 ```
-C:\Users\guilhermebrechot>docker system prune --help
+C:\Users\teste>docker system prune --help
 
 Usage:  docker system prune [OPTIONS]
 
@@ -2186,7 +2245,7 @@ Options:
 
 **Traduzido:**
 ```
-C:\Usuários\guilhermebrechot>pod do sistema docker --ajuda
+C:\Usuários\teste>pod do sistema docker --ajuda
 
 Uso: podar o sistema docker [OPÇÕES]
 
