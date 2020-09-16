@@ -1,6 +1,6 @@
 # Docker
 ## Manual simples
-#### Revisão - Versão: 0.0.6
+#### Revisão - Versão: 0.0.7
 
 ___
 
@@ -2468,7 +2468,7 @@ Agora note também que o campo **PORT** está preenchido quando executado um ```
 
 * **-V**
 
-Montar volumes é a opção que monta um diretório HOST dentro do container, exemplo:
+Montar volumes é a opção que monta um diretório **HOST** dentro do container, exemplo:
 
 ```
 root@debian:~# docker run -v /root/teste:/mnt/ -ti ubuntu /bin/bash
@@ -2942,6 +2942,80 @@ root@debian:~# docker inspect 25bb0a49ecf0 | grep -i mem
 ```
 
 Bem, com isso já se é possível criar testes mais complexos sem o risco do seu **HOST** parar de funcionar.
+
+___
+
+#### Copiando arquivos para dentro do contianer
+
+Podemos montar volumes que são diretórios do **HOST** dentro do docker, assim mesmo que o container morra, o arquivo ainda vai existir pois ele pertence ao **HOST**, más e se quisermos só enviar o arquivo sem montar uma unidade... Para isso usamos o ```cp```, veja:
+
+```
+C:\Users\guilhermebrechot>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
+557801e49c34        f6dcff9b59af        "bash"              About a minute ago   Up About a minute                       condescending_lewin
+
+C:\Users\guilhermebrechot>dir teste
+ O volume na unidade C não tem nome.
+ O Número de Série do Volume é 32E5-9B82
+
+ Pasta de C:\Users\guilhermebrechot\teste
+
+16/09/2020  16:32    <DIR>          .
+16/09/2020  16:32    <DIR>          ..
+16/09/2020  16:32                10 teste.txt
+               1 arquivo(s)             10 bytes
+               2 pasta(s)   40.186.564.608 bytes disponíveis
+
+C:\Users\guilhermebrechot>docker cp teste/ 557801e49c34:/
+
+C:\Users\guilhermebrechot>docker exec -ti 557801e49c34 ls /
+bin   dev  home  lib64  mnt  proc  run   srv  teste  usr
+boot  etc  lib   media  opt  root  sbin  sys  tmp    var
+
+C:\Users\guilhermebrechot>docker exec -ti 557801e49c34 ls /teste
+teste.txt
+
+```
+
+Com isso notamos que ele enviou o arquivo para dentro do container sem afetar o **HOST**, quando o container for morto ou der problema, esse arquivo vai sumir, más ainda tem suas aplicações, veja o ```--help``` deste cara:
+
+**Original:**
+```
+C:\Users\guilhermebrechot>docker cp --help
+
+Usage:  docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
+        docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
+
+Copy files/folders between a container and the local filesystem
+
+Use '-' as the source to read a tar archive from stdin
+and extract it to a directory destination in a container.
+Use '-' as the destination to stream a tar archive of a
+container source to stdout.
+
+Options:
+  -a, --archive       Archive mode (copy all uid/gid information)
+  -L, --follow-link   Always follow symbol link in SRC_PATH
+```
+
+**Tradução:**
+```
+C:\Usuários\guilhermebrechot>docker cp --ajuda
+
+Uso: docker cp [OPÇÕES] CONTAINER:SRC_PATH DEST_PATH|-
+        docker cp [OPÇÕES] SRC_PATH|- CONTAINER:DEST_PATH
+
+Copiar arquivos/pastas entre um contêiner e o sistema de arquivos local
+
+Use '-' como fonte para ler um arquivo de piche de stdin
+e extraí-lo para um destino de diretório em um contêiner.
+Use '-' como destino para transmitir um arquivo de piche de um
+fonte de contêiner para stdout.
+
+Opções:
+  -a, --archive Archive mode (copiar todas as informações uid/gid)
+  -L, --follow-link Siga sempre o link do símbolo em SRC_PATH
+```
 
 ____
 
