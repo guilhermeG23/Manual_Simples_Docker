@@ -1,6 +1,6 @@
 # Docker
 ## Manual simples
-#### Revisão - Versão: 0.0.5
+#### Revisão - Versão: 0.0.6
 
 ___
 
@@ -939,6 +939,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 Se estiver usando o o Windows, você com certeza deve estar xingando agora por notar que o ```ctrl+p+q``` não desatacha o container, alguns atalhos no windows para o Docker são diferentes, para conseguir sair do contaienr use:
 
 * ```ctrl+z```
+* ```ctrl+z+c```
 
 ____
 
@@ -2942,6 +2943,70 @@ root@debian:~# docker inspect 25bb0a49ecf0 | grep -i mem
 
 Bem, com isso já se é possível criar testes mais complexos sem o risco do seu **HOST** parar de funcionar.
 
+____
+
+#### DIFF
+
+Diff traz a diferença da imagem para as alterações dentro de uma imagem, no caso, compara as camadas "READ" da imagem base para o container que está funcionando, exemplo:
+
+```
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+debian              latest              f6dcff9b59af        6 days ago          114MB
+
+C:\Users\teste>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+1e5b5040e88b        debian              "bash"              6 minutes ago       Up 6 minutes                            recursing_lalande
+
+C:\Users\teste>docker attach 1e5b5040e88b
+root@1e5b5040e88b:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  teste  tmp  usr  var
+
+C:\Users\teste>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+1e5b5040e88b        debian              "bash"              7 minutes ago       Up 7 minutes                            recursing_lalande
+
+C:\Users\teste>docker diff 1e5b5040e88b
+A /teste
+```
+
+Para essas alterações serem passada para frente é necessário **COMMIT** para a imagem, no caso, se dar um **QUIT** na imagem, vai perder essas alterações (Isso foi explicado mais acima), veja:
+
+```
+C:\Users\teste>docker rm -f 1e5b5040e88b
+1e5b5040e88b
+
+C:\Users\teste>docekr ps
+'docekr' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+
+C:\Users\teste>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+
+C:\Users\teste>docker run -ti debian
+root@b5378e961a32:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+```
+
+Da uma olhada no ```--help``` do **DIFF**:
+
+**Original:**
+```
+C:\Users\teste>docker diff --help
+
+Usage:  docker diff CONTAINER
+
+Inspect changes to files or directories on a container's filesystem
+```
+
+**Traduzida:**
+```
+C: \ Users \ teste> docker diff --help
+
+Uso: docker diff CONTAINER
+
+Inspecione alterações em arquivos ou diretórios no sistema de arquivos de um contêiner
+```
 ____
 
 #### COMMIT
