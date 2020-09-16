@@ -337,6 +337,7 @@ ___
 
 Abaixo está a saída de parâmentros para ações no Docker, digitar ```docker``` ou ```docker --help```, ambos geram a mesma saída, veja:
 
+**Original:**
 ```
 root@debian:~# docker
 
@@ -416,6 +417,89 @@ Commands:
   wait        Block until one or more containers stop, then print their exit codes
 
 Run 'docker COMMAND --help' for more information on a command.
+```
+
+**Tradução:**
+```
+root@debian:~# docker
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default "/root/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level ("debug"|"info"|"warn"|"error"|"fatal") (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default "/root/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default "/root/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default "/root/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  builder     Gerenciar compilações
+  config      Gerenciar configs Docker
+  container   Gerenciar contêineres
+  engine      Gerencie o motor docker
+  image       Gerenciar imagens
+  network     Gerenciar redes
+  node        Gerenciar nódulos enxame
+  plugin      Gerenciar plugins
+  secret      Gerenciar segredos do Docker
+  service     Gerenciar serviços
+  stack       Gerenciar pilhas de Docker
+  swarm       Gerenciar enxame
+  system      Gerenciar docker
+  trust       Gerencie a confiança nas imagens do Docker
+  volume      Gerenciar volumes
+
+Commands:
+  attach      Conecte fluxos de entrada, saída e erro padrão locais a um recipiente em execução
+  build       Construa uma imagem a partir de um Dockerfile
+  commit      Crie uma nova imagem a partir das alterações de um contêiner
+  cp          Copiar arquivos/pastas entre um contêiner e o sistema de arquivos local
+  create      Crie um novo contêiner
+  diff        Inspecione alterações em arquivos ou diretórios no sistema de arquivos de um contêiner
+  events      Obtenha eventos em tempo real do servidor
+  exec        Execute um comando em um contêiner em execução
+  export      Exporte o sistema de arquivos de um contêiner como um arquivo de piche
+  history     Mostre a história de uma imagem
+  images      Liste imagens
+  import      Importe o conteúdo de uma tarball para criar uma imagem do sistema de arquivos
+  info        Exibir informações em todo o sistema
+  inspect     Retornar informações de baixo nível sobre objetos Docker
+  kill        Mate um ou mais contêineres em execução
+  load        Carregue uma imagem de um arquivo de piche ou STDIN
+  login       Faça login em um registro do Docker
+  logout      Sair de um registro do Docker
+  logs        Buscar os troncos de um contêiner
+  pause       Pausar todos os processos dentro de um ou mais contêineres
+  port        Liste mapeamentos de portas ou um mapeamento específico para o contêiner
+  ps          Listar contêineres
+  pull        Puxe uma imagem ou um repositório de um registro
+  push        Empurre uma imagem ou um repositório para um registro
+  rename      Renomeie um contêiner
+  restart     Reinicie um ou mais contêineres
+  rm          Remova um ou mais recipientes
+  rmi         Remova uma ou mais imagens
+  run         Execute um comando em um novo contêiner
+  save        Salvar uma ou mais imagens em um arquivo de piche (transmitido para STDOUT por padrão)
+  search      Pesquise imagens no Docker Hub
+  start       Inicie um ou mais contêineres parados
+  stats       Exibir uma transmissão ao vivo das estatísticas de uso de recursos de contêineres
+  stop        Pare um ou mais recipientes de corrida
+  tag         Crie uma tag TARGET_IMAGE que se refere a SOURCE_IMAGE
+  top         Exibir os processos de execução de um contêiner
+  unpause     Descompuser todos os processos dentro de um ou mais contêineres
+  update      Atualizar configuração de um ou mais contêineres
+  version     Mostre as informações da versão do Docker
+  wait        Bloqueie até que um ou mais contêineres parem e imprima seus códigos de saída
+
+Run 'docker COMMAND --help' for more information on a command.
+```
 ```
 
 **AVISO:** Não pretendo falar de todos os comandos e sim dos que mais utilizo em prática por mimi, esse manual será atualizado com o tempo e passará por diversas alterações e  reformas, nesses tempos e se necessário, será criada explicações e exemplos de comandos ainda não listados.
