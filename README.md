@@ -500,7 +500,6 @@ Commands:
 
 Run 'docker COMMAND --help' for more information on a command.
 ```
-```
 
 **AVISO:** Não pretendo falar de todos os comandos e sim dos que mais utilizo em prática por mimi, esse manual será atualizado com o tempo e passará por diversas alterações e  reformas, nesses tempos e se necessário, será criada explicações e exemplos de comandos ainda não listados.
 
