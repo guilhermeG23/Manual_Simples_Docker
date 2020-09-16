@@ -1,6 +1,6 @@
 # Docker
 ## Manual simples
-#### Revisão - Versão: 0.0.3
+#### Revisão - Versão: 0.0.4
 
 ___
 
@@ -187,13 +187,27 @@ ___
 
 ### Ambiente de testes utilizado:
 
-Versão do S.O utilizado (Debian 10.5):
+#### Debian
+
+Versão do S.O utilizado:
 ```
 Linux version 4.19.0-10-amd64 (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-6)) #1 SMP Debian 4.19.132-1 (2020-07-24)
 ```
 Versão do Docker utilizado:
 ```
 Docker version 18.09.1, build 4c52b90
+```
+
+#### Windows 10
+
+Versão do S.O utilizado:
+```
+Nome do sistema operacional:               Microsoft Windows 10 Home Single Language
+Versão do sistema operacional:             10.0.19041 N/A compilação 19041
+```
+Versão do Docker utilizado:
+```
+Docker version 19.03.12, build 48a66213fe
 ```
 
 ___
@@ -920,6 +934,12 @@ root@debian:~# docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ```
 
+### Aviso
+
+Se estiver usando o o Windows, você com certeza deve estar xingando agora por notar que o ```ctrl+p+q``` não desatacha o container, alguns atalhos no windows para o Docker são diferentes, para conseguir sair do contaienr use:
+
+* ```ctrl+z```
+
 ____
 
 #### Attach
@@ -1219,7 +1239,7 @@ b52f131632dc        4e2eef94cd6b        "/bin/bash"         8 minutes ago       
 
 ```
 
-O que aconteceu? Eu mandei executar um container que que estava parado, o **1f2c62f99928**, o resultado foi que ele realmente foi executado, podemos ver pelo **STATUS** dele que a ultima vez que ele iniciou foi a 8 segundos atrás, más ele não mostrou nada né, tem um motivo, não pedimos para ele fazer isso, quer ver?
+O que aconteceu? Eu mandei executar um container que que estava parado, o **1f2c62f99928**, o resultado foi que ele realmente foi executado, podemos ver pelo **STATUS** dele que a ultima vez que ele iniciou foi a 8 segundos atrás, más ele não mostrou nada né, tem um motivo, não pedimos para ele fazer isso, quer ver, da uma olhada no ```--help``` e entende do por que não ouve uma saída:
 
 
 **Original:**
@@ -1540,7 +1560,7 @@ bb72e2b64cd5        ubuntu              "/bin/bash"         7 minutes ago       
 Mesmo tendo o container em execução o mesmo foi deletado.
 
 
-Agora, tambem existem outros métodos de delePorém existem outros comandos para dar suporte a essa parte, como exemplo o ```prune```:
+Agora, existem outros métodos de deletar containers, como exemplo o ```prune```:
 
 ```
 root@debian:~# docker ps -a
@@ -1973,6 +1993,213 @@ Tudo acima foi o introdutório do Docker, tudo para ajudar a ter um controle sob
 
 ___
 
+### Usando PRUNE
+
+Usar o prune é o mesmo que fazer a limpeza de primaverá dentro do sistema, em alguma hora, se você tiver gosto claro, o **HOST** vai ficar cheio de imagens, containers e demais, dessa forma precisa se fazer uma limpa, por esse motivo existe o **PRUNE**, veja a limpeza de imagens:
+
+```
+C:\Users\guilhermebrechot>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+f2bf74394b40        ubuntu              "/bin/bash"         9 minutes ago       Up 9 minutes                            compassionate_ardinghelli
+
+C:\Users\guilhermebrechot>docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+f2bf74394b40        ubuntu              "/bin/bash"         9 minutes ago       Up 9 minutes                            compassionate_ardinghelli
+
+C:\Users\guilhermebrechot>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
+centos              latest              0d120b6ccaa8        5 weeks ago         215MB
+hello-world         latest              bf756fb1ae65        8 months ago        13.3kB
+
+C:\Users\guilhermebrechot>docker image prune -a
+WARNING! This will remove all images without at least one container associated to them.
+Are you sure you want to continue? [y/N] y
+Deleted Images:
+untagged: hello-world:latest
+untagged: hello-world@sha256:4cf9c47f86df71d48364001ede3a4fcd85ae80ce02ebad74156906caff5378bc
+deleted: sha256:bf756fb1ae65adf866bd8c456593cd24beb6a0a061dedf42b26a993176745f6b
+deleted: sha256:9c27e219663c25e0f28493790cc0b88bc973ba3b1686355f221c38a36978ac63
+untagged: centos:latest
+untagged: centos@sha256:76d24f3ba3317fa945743bb3746fbaf3a0b752f10b10376960de01da70685fbd
+deleted: sha256:0d120b6ccaa8c5e149176798b3501d4dd1885f961922497cd0abef155c869566
+deleted: sha256:291f6e44771a7b4399b0c6fb40ab4fe0331ddf76eda11080f052b003d96c7726
+
+Total reclaimed space: 215.1MB
+
+C:\Users\guilhermebrechot>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
+```
+
+Agora olha o ```--help``` desse cara:
+
+**Original:**
+```
+C:\Users\guilhermebrechot>docker image prune --help
+
+Usage:  docker image prune [OPTIONS]
+
+Remove unused images
+
+Options:
+  -a, --all             Remove all unused images, not just dangling ones
+      --filter filter   Provide filter values (e.g. 'until=<timestamp>')
+  -f, --force           Do not prompt for confirmation
+```
+
+**Traduzido:**
+```
+C:\Usuários\guilhermebrechot>pod de imagem docker --ajuda
+
+Uso: podar imagem docker [OPÇÕES]
+
+Remova imagens nãousadas
+
+Opções:
+  -a, --tudo Remover todas as imagens nãousadas, não apenas as pendentes
+      -filtro Fornecer valores do filtro (por exemplo, 'até=<timestamp>')
+  -f, --força Não solicite confirmação
+```
+
+O **PRUNE** images é para a remoção de imagens não utilizadas no momento, como pode ter visto, foi eliminadas as imagens que os atuais containers não estavam utilizando.
+
+Podemos limpar também os containers que não estão em uso como:
+
+```
+C:\Users\guilhermebrechot>docker run ubuntu
+
+C:\Users\guilhermebrechot>docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+c9a36e3b49ed        ubuntu              "/bin/bash"         4 seconds ago       Exited (0) 3 seconds ago                       determined_wu
+f2bf74394b40        ubuntu              "/bin/bash"         18 minutes ago      Up 18 minutes                                  compassionate_ardinghelli
+
+C:\Users\guilhermebrechot>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+f2bf74394b40        ubuntu              "/bin/bash"         18 minutes ago      Up 18 minutes                           compassionate_ardinghelli
+
+C:\Users\guilhermebrechot>docker container prune -f
+Deleted Containers:
+c9a36e3b49ede60d60bd240dac6274c3485c18a7c4f21e0b649a55018aaf5453
+
+Total reclaimed space: 0B
+
+C:\Users\guilhermebrechot>docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+f2bf74394b40        ubuntu              "/bin/bash"         18 minutes ago      Up 18 minutes                           compassionate_ardinghelli
+```
+
+Olha mais um ```--help``` para a conta:
+
+**Original:**
+```
+C:\Users\guilhermebrechot>docker container prune --help
+
+Usage:  docker container prune [OPTIONS]
+
+Remove all stopped containers
+
+Options:
+      --filter filter   Provide filter values (e.g. 'until=<timestamp>')
+  -f, --force           Do not prompt for confirmation
+```
+
+**Traduzido:**
+```
+C:\Usuários\guilhermebrechot>pod de contêiner docker --ajuda
+
+Uso: podar o contêiner docker [OPÇÕES]
+
+Remova todos os recipientes parados
+
+Opções:
+      -filtro Fornecer valores do filtro (por exemplo, 'até=<timestamp>')
+  -f, --força Não solicite confirmação
+```
+
+Agora vem a limpeza de primavera utilizando o o **SYSTEM**, veja:
+
+```
+C:\Users\guilhermebrechot>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+f2bf74394b40        ubuntu              "/bin/bash"         20 minutes ago      Up 20 minutes                           compassionate_ardinghelli
+
+C:\Users\guilhermebrechot>docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+f2bf74394b40        ubuntu              "/bin/bash"         20 minutes ago      Up 20 minutes                           compassionate_ardinghelli
+
+C:\Users\guilhermebrechot>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
+
+C:\Users\guilhermebrechot>docker run -d hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+0e03bdcc26d7: Pull complete
+Digest: sha256:4cf9c47f86df71d48364001ede3a4fcd85ae80ce02ebad74156906caff5378bc
+Status: Downloaded newer image for hello-world:latest
+c13b82ab292e196041eaeee1f625534162d305a7c9e347745dc8b99f130592c1
+
+C:\Users\guilhermebrechot>docker run ubuntu
+
+C:\Users\guilhermebrechot>docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+9f67ca7ae4ce        ubuntu              "/bin/bash"         5 seconds ago       Exited (0) 3 seconds ago                        suspicious_haibt
+c13b82ab292e        hello-world         "/hello"            17 seconds ago      Exited (0) 16 seconds ago                       inspiring_meitner
+f2bf74394b40        ubuntu              "/bin/bash"         20 minutes ago      Up 20 minutes                                   compassionate_ardinghelli
+
+C:\Users\guilhermebrechot>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              4e2eef94cd6b        3 weeks ago         73.9MB
+hello-world         latest              bf756fb1ae65        8 months ago        13.3kB
+
+C:\Users\guilhermebrechot>docker system prune -af
+Deleted Containers:
+9f67ca7ae4ce29bb357e7526946e22f881421a9c9d39c8a5284ef8b41310502f
+c13b82ab292e196041eaeee1f625534162d305a7c9e347745dc8b99f130592c1
+
+Deleted Images:
+untagged: hello-world:latest
+untagged: hello-world@sha256:4cf9c47f86df71d48364001ede3a4fcd85ae80ce02ebad74156906caff5378bc
+deleted: sha256:bf756fb1ae65adf866bd8c456593cd24beb6a0a061dedf42b26a993176745f6b
+deleted: sha256:9c27e219663c25e0f28493790cc0b88bc973ba3b1686355f221c38a36978ac63
+
+Total reclaimed space: 13.34kB
+```
+
+Com isso foram limpas imagens e containers não utilizados no momento, veja o ```--help``` para se ter uma idéia melhor dos parâmetros:
+
+**Original:**
+```
+C:\Users\guilhermebrechot>docker system prune --help
+
+Usage:  docker system prune [OPTIONS]
+
+Remove unused data
+
+Options:
+  -a, --all             Remove all unused images not just dangling ones
+      --filter filter   Provide filter values (e.g. 'label=<key>=<value>')
+  -f, --force           Do not prompt for confirmation
+      --volumes         Prune volumes
+```
+
+**Traduzido:**
+```
+C:\Usuários\guilhermebrechot>pod do sistema docker --ajuda
+
+Uso: podar o sistema docker [OPÇÕES]
+
+Remover dados não usos
+
+Opções:
+  -a, --tudo Remover todas as imagens nãousadas não apenas balançando
+      -filtro Fornecer valores do filtro (por exemplo, 'label=<key>=<value>')
+  -f, --força Não solicite confirmação
+      -volumes Volumes de ameixa
+```
+___
+
 #### Rede docker
 
 O Docker cria suas proprias redes para trabalhar, sendo as padrões:
@@ -2001,7 +2228,7 @@ Por padrão todo o container que não possui uma rede especificada durante sua c
 
 Conectando multiplos containers
 
-**Exemplo***:
+**Exemplo**:
 * Server web;
 * aplicacao;
 * Banco;
