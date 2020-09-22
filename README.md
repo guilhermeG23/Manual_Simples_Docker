@@ -1,6 +1,6 @@
 # Docker
 ## Manual simples
-#### Revisão - Versão: 0.0.7
+#### Revisão - Versão: 0.0.9
 
 ___
 
@@ -32,7 +32,7 @@ Link: https://github.com/guilhermeG23/Manual_Simples_Docker
 
 ___
 
-### Um pouco de história
+### Antes de tudo, um pouco de história
 
 De forma rasa a virtualização surgiu como um método de compartilhar o tempo de processamento de forma a se obter mais resultados com o custo de mesmo tempo, exemplo:
 
@@ -210,6 +210,24 @@ Versão do Docker utilizado:
 Docker version 19.03.12, build 48a66213fe
 ```
 
+___
+
+### Dica para quem usa Windows sem Hypervisor
+
+Caso esteja usando o Docker Docker Windows Home (Sim, tem dois dockers no nome), você provavelmente não vai ter uma opção de configuração do **POOL** de hardware da sua máquina, e isso é ruim dependente as configs que você tenha, você vai notar que tem um processo chamado **VMMEM** tolando uns minimos 1G a 2G de ram seu, caso queira configurar um limite para essa máquina, faça isso:
+
+* Crie um arquivo chamado **wslconfig** sem qualquer extensão;
+* Coloque ele no seu **PROFILE** (Pasta do usuário que normalmente fica em C:\Users\Usuario);
+* Digite dentro desse arquivo:
+
+```
+[wsl2]
+memory=512M
+```
+
+* Salve e reinicie o serviço do Docker;
+
+No caso eu só coloquei um **POOL** de 512 de RAM, más é possível configurar demais coisas, como quantidade de processadores, espaço em disco e outras;
 ___
 
 ### Ajuda
@@ -501,8 +519,7 @@ Commands:
 Run 'docker COMMAND --help' for more information on a command.
 ```
 
-**AVISO:** Não pretendo falar de todos os comandos e sim dos que mais utilizo em prática por mimi, esse manual será atualizado com o tempo e passará por diversas alterações e  reformas, nesses tempos e se necessário, será criada explicações e exemplos de comandos ainda não listados.
-
+**AVISO:** Bem não sei se vou listar todos, vou listar aqueles que mais uso e conheco, forá estes, somente será listados os demais futuramente após alguns estudos.
 ___
 
 #### Informação do Docker
@@ -609,7 +626,7 @@ ___
 
 #### Olha o hello world
 
-Vamos ao famoso "Executando hello world"... Não Docker não é uma linguagem de programação, o que será feito é, será requisitada o container que traga justamente o "hello-world" a nós, **Exemplo**:
+Vamos ao famoso "Executando hello world"... Não, Docker não é uma linguagem de programação, o que será feito é, será requisitada o container que traga justamente o "hello-world" a nós, veja:
 
 ```
 docker run hello-world
@@ -619,7 +636,7 @@ docker run hello-world
 
 | docker | run | hello-world | 
 | --- | --- | --- |
-| Chamando o programa | Parametro para ação, no caso um executar | Imagem que quero executar |
+| Chamando o programa | Parâmetro para ação, no caso um executar | Imagem que quero executar |
 
 **OBS:** Quando você executar o docker run, ele vai procurar se existe imagens dentro do **HOST** para a criação do container, caso não achar, ele baixa o container automaticamente do Docker-Hub.
 
@@ -758,7 +775,7 @@ ____
 #### docker ps
 ##### Você vai enjoar de tanto que vai usar ou ver!
 
-Docker ps é um comando para listar os container's, o mesmo possui parametros para se realizar filtros e demais, Ex:
+Docker ps é um comando para listar os container's, o mesmo possui parâmetros para se realizar filtros e demais, Ex:
 
 * ```docker ps``` -> Somente lista os containers em funcionamento;
 * ```docker ps -a``` -> Lista todos os containers existentes nos host, não importando seus status;
@@ -819,7 +836,7 @@ No caso de executar novamente esse imagem, ela vai seguir o seguinte ciclo:
 * Printa a mensagem;
 * Fecha o container;
 
-Agora vamos criar um novo container só porque eu quero, veja vamos fazer um "Hello world" defirente do apresentado:
+Agora vou criar um novo container só porque eu quero, olha um "Hello world" defirenciado sendo apresentado:
 
 ```
 docker run ubuntu echo "hello world"
@@ -1024,6 +1041,8 @@ Se estiver usando o o Windows, você com certeza deve estar xingando agora por n
 * ```ctrl+z```
 * ```ctrl+z+c```
 
+Se não funcionar nenhum desses... bem... boa sorte, pai google em ação.
+
 ____
 
 #### Attach
@@ -1173,7 +1192,7 @@ Options:
 
 **Traduzido:**
 
-```
+``` 
 root@debian:~# docker run --help
 
 Uso: docker executar [OPÇÕES] IMAGEM [COMANDO] [ARG...]
@@ -1274,7 +1293,7 @@ Opções:
   -w, --workdir string Diretório de trabalho dentro do contêiner
 ```
 
-Notemos que existem vários parametros que permitem configurações personalizadas para os mesmo, alguns destes são explicados e usados ao longo do manual, partiu!
+Notemos que existem vários parâmetros que permitem configurações personalizadas para os mesmo, alguns destes são explicados e usados ao longo do manual, partiu!
 
 ___
 
@@ -1837,7 +1856,28 @@ hello-world         latest              bf756fb1ae65        8 months ago        
 
 Veja que ele deleta os PULL's e como podemos ver, nenhuma imagem fazia referência a aquela que foi apagada.
 
-Agora vamos testar deletar uma imagem que faz referência a outras imagens:
+Outra forma de fazer o delete de uma imagem é somente se utilizar dos 3 primeiros caracteres desta imagem, veja:
+
+```
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+perlporter/apache   1.0                 9ca22cd39da9        4 days ago          243MB
+ubuntu              latest              bb0eaf4eee00        4 days ago          72.9MB
+debian              latest              f6dcff9b59af        11 days ago         114MB
+
+C:\Users\teste>docker rmi 9ca
+Untagged: perlporter/apache:1.0
+Untagged: perlporter/apache@sha256:4a4f45b5a4cb485b5412b4914a896e3012cc3384dd3c7d0706a8648678ff054d
+Deleted: sha256:9ca22cd39da9d002e7f7d333ea255d5371ac08b344f6210e3a09fd9ee71133f4
+Deleted: sha256:c7b2951731c008543c69dfbc0b0ae5eaef7623e79d8422f7c7dcb6313fb5065e
+
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              bb0eaf4eee00        4 days ago          72.9MB
+debian              latest              f6dcff9b59af        11 days ago         114MB
+```
+
+Agora, voltando a parte de deletar imagens que fazer referência a outras, veja:
 
 ```
 root@debian:~# docker images
@@ -2130,6 +2170,67 @@ ___
 
 ___
 
+### History de imagens  
+
+Agora que já foi visto sobre imagens, vamos entrar um pouco mais afundo nelas, por exemplo, podemos ver os estágios que foram feitos até o estado atual da imagem com o uso do comando:
+
+```
+docker history <parametros> <imagem>
+```
+
+Veja o exemplo:
+
+```
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              bb0eaf4eee00        5 days ago          72.9MB
+debian              latest              f6dcff9b59af        12 days ago         114MB
+
+C:\Users\teste>docker history bb0eaf4eee00
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+bb0eaf4eee00        5 days ago          /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B
+<missing>           5 days ago          /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B
+<missing>           5 days ago          /bin/sh -c [ -z "$(apt-get indextargets)" ]     0B
+<missing>           5 days ago          /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   811B
+<missing>           5 days ago          /bin/sh -c #(nop) ADD file:1b4ec50586b9f0621…   72.9MB
+```
+
+Ele possui alguns parâmetros para fazer melhores pesquisar, porém é mais para uso avançado, dessa forma, aqui vai o ``` --help ``` só para deixar avisado:
+
+**Original:**
+```
+C:\Users\teste>docker history --help
+
+Usage:  docker history [OPTIONS] IMAGE
+
+Show the history of an image
+
+Options:
+      --format string   Pretty-print images using a Go template
+  -H, --human           Print sizes and dates in human readable format
+                        (default true)
+      --no-trunc        Don't truncate output
+  -q, --quiet           Only show numeric IDs
+```
+
+**Traduzido:**
+```
+C:\Usuários\teste>docker history --help
+
+Uso: histórico do docker [OPÇÕES] IMAGEM
+
+Mostre a história de uma imagem
+
+Opções:
+      --sequência de formato Imagens de impressão bonita usando um modelo Go
+  -H, --tamanhos de impressão humanos e datas em formato legível humano
+                        (padrão verdadeiro)
+      --no-trunc Não truncate saída
+  -q, --tranquilo Só mostrar IDs numéricos
+```
+___
+
+
 ### Indo para um pouco mais avançado
 
 Tudo acima foi o introdutório do Docker, tudo para ajudar a ter um controle sobre o mesmo para a realização das tarefas, a partir desse ponto, se inicia a manipulação mais avançada.
@@ -2379,7 +2480,7 @@ Conectando multiplos containers
 
 Todos interligados para criar o funcionamento, isso é cada container tem uma responsabilidade;
 
-O docker já tem em mente o uso de redes, ele uma default network para o funcionamento dos containers e todos o containers são iniciados com ela, do 172.168.0.1 ao 254 uma rede / 24 interna do docker
+O docker já tem em mente o uso de redes, ele usa a **default network** que é a **brigde** para o funcionamento dos containers em geral, essa rede normalmente vai do IP 172.168.0.1 ao 254 do tipo / 24.
 
 **Exemplo da rede de um container:**
 ```
@@ -2424,29 +2525,59 @@ O docker já tem em mente o uso de redes, ele uma default network para o funcion
         }
 ```
 
-Lembrando por que alguns comandos não funcionam dentro do container? O container so tem o essencial para funcionar, comandos desnecessarios nem sao colocados no container, no caso você precisa baixar os containers e lembrando que o container é temporario, caso entre em um container e faça alterações como instalar um pacote, isso será perdido no momento que o container ser morto
+Um aviso, normalmente um container é enxuto de comandos e funções desnecessários ao mesmo, assim você normalmente não vai ter aqueles ```ìfconfig```, ```ip addr``` e demais outras comandos para visualizar a rede ou mesmo configura-la, o motivo disso é que quem faz o trabalho é o Docker nesta horas.
+
 
 #### Provando a rede
 
-Suba dois containers com ubuntu e instale os pacotes necessarios para o ping e ifconfig, o comando: "**apt update && apt install iputils-ping -y && apt install net-tools**", após subir os dois e instalar os comandos acima em um e pingue o outro
+Para demonstrar o funcionamento das redes dentro do Docker de modo **brigde**, suba dois containers com ubuntu ou qualquer base debian só por facilidade, instale os pacotes necessarios para o ping e ifconfig em um dos dois com o comando: "**apt update && apt install iputils-ping -y && apt install net-tools**" e teste, veja o resultado:
 
 **Exemplo:**
 ```
-root@c84a471a89dc:/# ping 172.17.0.3
-PING 172.17.0.3 (172.17.0.3) 56(84) bytes of data.
-64 bytes from 172.17.0.3: icmp_seq=1 ttl=64 time=0.224 ms
-64 bytes from 172.17.0.3: icmp_seq=2 ttl=64 time=0.131 ms
-64 bytes from 172.17.0.3: icmp_seq=3 ttl=64 time=0.111 ms
-64 bytes from 172.17.0.3: icmp_seq=4 ttl=64 time=0.116 ms
-64 bytes from 172.17.0.3: icmp_seq=5 ttl=64 time=0.113 ms
-64 bytes from 172.17.0.3: icmp_seq=6 ttl=64 time=0.114 ms
+C:\Users\teste>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+5eee90872b19        bb0eaf4eee00        "/bin/bash"         5 minutes ago       Up 5 minutes                            optimistic_turing
+7695d0b39f36        bb0eaf4eee00        "/bin/bash"         5 minutes ago       Up 5 minutes                            stupefied_bardeen
+
+C:\Users\teste>docker attach 5eee90872b19
+root@5eee90872b19:/# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.3  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:ac:11:00:03  txqueuelen 0  (Ethernet)
+        RX packets 10561  bytes 15388050 (15.3 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 5369  bytes 294997 (294.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@5eee90872b19:/# arp -a
+? (172.17.0.1) at 02:42:5b:1b:04:3b [ether] on eth0
+? (172.17.0.2) at 02:42:ac:11:00:02 [ether] on eth0
+root@5eee90872b19:/# ping 172.17.0.2
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.094 ms
+64 bytes from 172.17.0.2: icmp_seq=2 ttl=64 time=0.110 ms
+^C
+--- 172.17.0.2 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1028ms
+rtt min/avg/max/mdev = 0.094/0.102/0.110/0.008 ms
+root@5eee90872b19:/#
 ```
 
-Para configurar a rede, isso é feito no docker hosts, o containers não precisa se conectar na rede default do sistema, eles se comunicam via docker hosts como uma camada de abstração
+É possível verificar que ambos  os containers que foram iniciados sem configurações extras estão sobre a mesma rede, a rede **bridge**, os demais comandos utilizados são de conhecimento comum, como ```arp``` para scanner de rede, ```ifconfig``` para listar as configs de rede e ```ping``` para o envio de requisições ICMP.
+
+Para configurar a rede do Docker em si, terá que mexer no no docker hosts, já que mesmo é a camadad de abstração entre os drivers e o **HOST** hospedeiro;
 
 #### Criando rede no docker
 
-O drive é como criar uma nuvem particular entre os containers, o bridge é o mais comum e resolve maiorias dos problemas, rede-containers é o nome da rede
+O drive é como criar uma nuvem particular entre os containers, o **Bridge** é o mais comum e resolve maiorias dos problemas, para se criar uma rede de containers faça:
 
 **Exemplo:**
 ```
@@ -2499,7 +2630,7 @@ docker run -d --network minha-rede --name meu-mongo mongo
 docker run -d -p 8080:3000 --network minha-rede --name meu-node node
 ```
 
-Quando você abrir o localhost:8080 ele vai mostrar nada, tem que entrar numa pagina para fazer os livros subirem na aplicação
+Quando você abrir o **localhost:8080** ele vai mostrar nada, tem que entrar numa pagina para fazer os livros subirem na aplicação
 ```
 localhost:8080/seed
 ```
@@ -2517,7 +2648,7 @@ ___
 
 #### Voltando ao RUN
 
-Bem como já vimos o **RUN** é o comando para criar/iniciar uma imagem em um container, já também vimos o **HELP** desse cara anteriormente, então vamos usar alguns pararmetros que com certeza serão interessantes.
+Bem como já vimos o **RUN** é o comando para criar/iniciar uma imagem em um container, já também vimos o **HELP** desse cara anteriormente, então vamos usar alguns parârmetros que com certeza serão interessantes.
 
 * **-P**
 
@@ -2622,6 +2753,374 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 76471d84ebeb        ubuntu              "/bin/bash"         3 minutes ago       Exited (0) 3 minutes ago                       teste
 b1547232cdf0        ubuntu              "/bin/bash"         4 minutes ago       Exited (0) 4 minutes ago                       pastel
 ```
+___
+
+#### PORTS
+
+Como foi visto, é possível listar as portas de saída de um container para o **HOST**, sendo assim podemos ver as portas quando der um comando ```ps```, porém o ```port``` tem a função de listar as portas de um container de forma a melhor visualizar a informação, veja:
+
+```
+C:\Users\teste>docker run -ti -p 80:80 -p 443:443 ubuntu
+root@e9d77b09aeae:/#
+C:\Users\teste>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                      NAMES
+e9d77b09aeae        ubuntu              "/bin/bash"         7 seconds ago       Up 6 seconds        0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   trusting_shamir
+
+C:\Users\teste>docker port trusting_shamir
+443/tcp -> 0.0.0.0:443
+80/tcp -> 0.0.0.0:80
+
+C:\Users\teste>docker port trusting_shamir 80
+0.0.0.0:80
+
+C:\Users\teste>docker port trusting_shamir 443
+0.0.0.0:443
+```
+
+Podemos listar as portas totais de um container ou mesmo somente uma em específico, porém se tentar listar uma porta que não existe, ele retorna um erro, veja:
+
+```
+C:\Users\teste>docker port trusting_shamir 442
+Error: No public port '442/tcp' published for trusting_shamir
+```
+
+Esse comando não tem muitos segredos, sua função principal é demonstrar uma informação, mesma assim, ai vai o ```--help``` para dar uma olhada:
+
+**Original:**
+```
+C:\Users\teste>docker port --help
+
+Usage:  docker port CONTAINER [PRIVATE_PORT[/PROTO]]
+
+List port mappings or a specific mapping for the container
+```
+
+**Traduzido:**
+```
+C:\Usuários\teste>porta docker --ajuda
+
+Uso: docker port CONTAINER [PRIVATE_PORT[/PROTO]]
+
+Liste mapeamentos de portas ou um mapeamento específico para o contêiner
+```
+___
+
+### Docker create
+
+Esse método é parecido com o ```run -d``` comum, porém ele trabalha de de um modo diferente, você pode criar um container com camada de escrita desligado, que quando iniciado, executa-rá o que foi previamente ordenado, exemplo:
+
+```
+C:\Users\teste>docker create bb0eaf4eee00 echo "hello word"
+c9c80027f5bf697deab7c1c14a7b92d2ff896e13e36355784ba5d73cded02e54
+
+C:\Users\teste>docker ps -a
+CONTAINER ID        IMAGE               COMMAND               CREATED             STATUS              PORTS               NAMES
+c9c80027f5bf        bb0eaf4eee00        "echo 'hello word'"   12 seconds ago      Created                                 nostalgic_hugle
+
+C:\Users\teste>docker start -a c9c80027f5bf
+hello word
+```
+
+Esse comando é bem completo e não irei ao fundo sobre ele por motivos de não utiliza-lo em prática, então aqui vai o ```--help``` para se ter uma idéia de suas funções:
+
+**Original:**
+```
+C:\Users\teste>docker create --help
+
+Usage:  docker create [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+Create a new container
+
+Options:
+      --add-host list                  Add a custom host-to-IP mapping
+                                       (host:ip)
+  -a, --attach list                    Attach to STDIN, STDOUT or STDERR
+      --blkio-weight uint16            Block IO (relative weight),
+                                       between 10 and 1000, or 0 to
+                                       disable (default 0)
+      --blkio-weight-device list       Block IO weight (relative device
+                                       weight) (default [])
+      --cap-add list                   Add Linux capabilities
+      --cap-drop list                  Drop Linux capabilities
+      --cgroup-parent string           Optional parent cgroup for the
+                                       container
+      --cidfile string                 Write the container ID to the file
+      --cpu-period int                 Limit CPU CFS (Completely Fair
+                                       Scheduler) period
+      --cpu-quota int                  Limit CPU CFS (Completely Fair
+                                       Scheduler) quota
+      --cpu-rt-period int              Limit CPU real-time period in
+                                       microseconds
+      --cpu-rt-runtime int             Limit CPU real-time runtime in
+                                       microseconds
+  -c, --cpu-shares int                 CPU shares (relative weight)
+      --cpus decimal                   Number of CPUs
+      --cpuset-cpus string             CPUs in which to allow execution
+                                       (0-3, 0,1)
+      --cpuset-mems string             MEMs in which to allow execution
+                                       (0-3, 0,1)
+      --device list                    Add a host device to the container
+      --device-cgroup-rule list        Add a rule to the cgroup allowed
+                                       devices list
+      --device-read-bps list           Limit read rate (bytes per second)
+                                       from a device (default [])
+      --device-read-iops list          Limit read rate (IO per second)
+                                       from a device (default [])
+      --device-write-bps list          Limit write rate (bytes per
+                                       second) to a device (default [])
+      --device-write-iops list         Limit write rate (IO per second)
+                                       to a device (default [])
+      --disable-content-trust          Skip image verification (default true)
+      --dns list                       Set custom DNS servers
+      --dns-option list                Set DNS options
+      --dns-search list                Set custom DNS search domains
+      --domainname string              Container NIS domain name
+      --entrypoint string              Overwrite the default ENTRYPOINT
+                                       of the image
+  -e, --env list                       Set environment variables
+      --env-file list                  Read in a file of environment variables
+      --expose list                    Expose a port or a range of ports
+      --gpus gpu-request               GPU devices to add to the
+                                       container ('all' to pass all GPUs)
+      --group-add list                 Add additional groups to join
+      --health-cmd string              Command to run to check health
+      --health-interval duration       Time between running the check
+                                       (ms|s|m|h) (default 0s)
+      --health-retries int             Consecutive failures needed to
+                                       report unhealthy
+      --health-start-period duration   Start period for the container to
+                                       initialize before starting
+                                       health-retries countdown
+                                       (ms|s|m|h) (default 0s)
+      --health-timeout duration        Maximum time to allow one check to
+                                       run (ms|s|m|h) (default 0s)
+      --help                           Print usage
+  -h, --hostname string                Container host name
+      --init                           Run an init inside the container
+                                       that forwards signals and reaps
+                                       processes
+  -i, --interactive                    Keep STDIN open even if not attached
+      --ip string                      IPv4 address (e.g., 172.30.100.104)
+      --ip6 string                     IPv6 address (e.g., 2001:db8::33)
+      --ipc string                     IPC mode to use
+      --isolation string               Container isolation technology
+      --kernel-memory bytes            Kernel memory limit
+  -l, --label list                     Set meta data on a container
+      --label-file list                Read in a line delimited file of labels
+      --link list                      Add link to another container
+      --link-local-ip list             Container IPv4/IPv6 link-local
+                                       addresses
+      --log-driver string              Logging driver for the container
+      --log-opt list                   Log driver options
+      --mac-address string             Container MAC address (e.g.,
+                                       92:d0:c6:0a:29:33)
+  -m, --memory bytes                   Memory limit
+      --memory-reservation bytes       Memory soft limit
+      --memory-swap bytes              Swap limit equal to memory plus
+                                       swap: '-1' to enable unlimited swap
+      --memory-swappiness int          Tune container memory swappiness
+                                       (0 to 100) (default -1)
+      --mount mount                    Attach a filesystem mount to the
+                                       container
+      --name string                    Assign a name to the container
+      --network network                Connect a container to a network
+      --network-alias list             Add network-scoped alias for the
+                                       container
+      --no-healthcheck                 Disable any container-specified
+                                       HEALTHCHECK
+      --oom-kill-disable               Disable OOM Killer
+      --oom-score-adj int              Tune host's OOM preferences (-1000
+                                       to 1000)
+      --pid string                     PID namespace to use
+      --pids-limit int                 Tune container pids limit (set -1
+                                       for unlimited)
+      --platform string                Set platform if server is
+                                       multi-platform capable
+      --privileged                     Give extended privileges to this
+                                       container
+  -p, --publish list                   Publish a container's port(s) to
+                                       the host
+  -P, --publish-all                    Publish all exposed ports to
+                                       random ports
+      --read-only                      Mount the container's root
+                                       filesystem as read only
+      --restart string                 Restart policy to apply when a
+                                       container exits (default "no")
+      --rm                             Automatically remove the container
+                                       when it exits
+      --runtime string                 Runtime to use for this container
+      --security-opt list              Security Options
+      --shm-size bytes                 Size of /dev/shm
+      --stop-signal string             Signal to stop a container
+                                       (default "15")
+      --stop-timeout int               Timeout (in seconds) to stop a
+                                       container
+      --storage-opt list               Storage driver options for the
+                                       container
+      --sysctl map                     Sysctl options (default map[])
+      --tmpfs list                     Mount a tmpfs directory
+  -t, --tty                            Allocate a pseudo-TTY
+      --ulimit ulimit                  Ulimit options (default [])
+  -u, --user string                    Username or UID (format:
+                                       <name|uid>[:<group|gid>])
+      --userns string                  User namespace to use
+      --uts string                     UTS namespace to use
+  -v, --volume list                    Bind mount a volume
+      --volume-driver string           Optional volume driver for the
+                                       container
+      --volumes-from list              Mount volumes from the specified
+                                       container(s)
+  -w, --workdir string                 Working directory inside the container
+```
+
+**Traduzido:**
+```
+C:\Usuários\teste>docker criar --ajuda
+
+Uso: docker criar [OPÇÕES] IMAGEM [COMANDO] [ARG...]
+
+Crie um novo contêiner
+
+Opções:
+      -lista de host adicionais Adicione um mapeamento personalizado de host-to-IP
+                                       (host:ip)
+  -a, --anexar lista Anexar a STDIN, STDOUT ou STDERR
+      --blkio-peso uint16 Bloco IO (peso relativo),
+                                       entre 10 e 1000, ou 0 a
+                                       desativar (padrão 0)
+      --blkio-peso-dispositivo de peso peso Bloquear O peso IO (dispositivo relativo
+                                       peso) (padrão [])
+      --lista de adicionar tampas Adicionar recursos do Linux
+      --lista de drop-drop recursos do Drop Linux
+      --cgroup-parent string Cgroup opcional pai para o
+                                       Recipiente
+      --string de cidfile Escreva o ID do contêiner para o arquivo
+      --cpu-período int Limitar CPU CFS (Completamente Justo
+                                       Período de agendamento)
+      --cpu-cota int Limitar CPU CFS (Completamente Justo
+                                       Tabelação) cota
+      --cpu-rt-period int Período de tempo real da CPU em
+                                       Microssegundos
+      --cpu-rt-runtime int Limitar o tempo de execução da CPU em tempo real
+                                       Microssegundos
+  -c, --cpu-ações int CPU ações (peso relativo)
+      --cpus número decimal de CPUs
+      --cpuset-cpus cpus cpus em que permitir a execução
+                                       (0-3, 0,1)
+      --cpuset-mems string MEMs em que permitir a execução
+                                       (0-3, 0,1)
+      -lista de dispositivos Adicione um dispositivo host ao contêiner
+      -lista de regras de cgroup-dispositivo Adicionar uma regra ao cgroup permitido
+                                       lista de dispositivos
+      --lista de leitura de dispositivos-bps Taxa de leitura limite (bytes por segundo)
+                                       de um dispositivo (padrão [])
+      --lista de leitura de dispositivos-iops Taxa de leitura limite (IO por segundo)
+                                       de um dispositivo (padrão [])
+      --lista de gravação-gravação-bps do dispositivo Taxa de gravação limite (bytes por
+                                       segundo) para um dispositivo (padrão [])
+      --lista de gravação-iops de dispositivo (IO por segundo)
+                                       para um dispositivo (padrão [])
+      -desativar-desativar-confiança de conteúdo Pular verificação de imagem (padrão verdadeiro)
+      Lista -dns Definir servidores DNS personalizados
+      Lista de opções -dns Definir opções DNS
+      --dns-lista de pesquisa Definir domínios de pesquisa DNS personalizados
+      --domínio de string Container NIS nome de domínio
+      --string de ponto de entrada Substitua o ENTRYPOINT padrão
+                                       da imagem
+  -e, --env lista Definir variáveis de ambiente
+      --lista de arquivos env Leia em um arquivo de variáveis de ambiente
+      -expor lista Expor uma porta ou uma gama de portas
+      --gpus gpu-request gpu dispositivos de GPU para adicionar ao
+                                       container ('todos' para passar todas as GPUs)
+      -lista de adoção de grupo Adicione grupos adicionais para participar
+      --comando de cordas de cmd de saúde para executar para verificar a saúde
+      -duração do intervalo de saúde Tempo entre a execução da verificação
+                                       (ms|s|m|h) (padrão 0s)
+      --problemas de saúde int Falhas consecutivas necessárias para
+                                       relatar insalubre
+      --duração do período de início de saúde Período inicial para o recipiente
+                                       inicializar antes de começar
+                                       contagem regressiva de reexperião de saúde
+                                       (ms|s|m|h) (padrão 0s)
+      --duração do tempo limite de saúde Tempo máximo para permitir que uma verificação para
+                                       executado (ms|s|m|h) (padrão 0s)
+      --ajudar o uso da impressão
+  -h, --hostname string Container nome do host
+      --init Executar uma init dentro do recipiente
+                                       que encaminha sinais e colhe
+                                       Processos
+  -i, --interativo Manter STDIN aberto mesmo que não anexado
+      Endereço IPv4 de string ip (por exemplo, 172.30.100.104)
+      --ip6 string IPv6 (por exemplo, 2001:db8::33)
+      --modo IPC string IPC para usar
+      --isolar a tecnologia de isolamento de contêineres
+      --kernel-memória bytes Limite de memória kernel
+  -l, --lista de rótulos Definir meta dados em um contêiner
+      -lista de arquivos de rótulos Leia em uma linha de arquivo delimitado de rótulos
+      Lista de links -Adicionar link a outro contêiner
+      -link-local-ip lista Contêiner IPv4/IPv6 link-local
+                                       Endereços
+      --driver de sequência de driver de registro driver para o contêiner
+      --log-opt-opt list Registre opções de driver
+      Endereço MAC-end-end String Container MAC (por exemplo,
+                                       92:d0:c6:0a:29:33)
+  -m, --memória bytes limite de memória
+      --memória-reserva bytes Limite suave de memória
+      --memória-swap bytes Limite de troca igual ao memória mais
+                                       swap: '-1' para permitir swap ilimitado
+      --troca de memória int Sintonize a troca de memória do recipiente
+                                       (0 a 100) (padrão -1)
+      -Montagem de montagem Anexar uma montagem do sistema de arquivos ao
+                                       Recipiente
+      --string nome Atribuir um nome ao recipiente
+      -Rede de rede Conecte um contêiner a uma rede
+      --lista de alias de rede Adicionar alias escopo de rede para o                                       Recipiente
+      --verificação sem saúde Desativar qualquer contêiner especificado
+                                       HEALTHCHECK
+      -oom-kill-desativar Disable OOM Killer
+      -oom-score-adj int Tune preferências OOM do anfitrião (-1000
+                                       a 1000)
+      --pid string PID namespace para usar
+      --pids-limit int Tune container pids limite (conjunto -1
+                                       para ilimitado)
+      --plataforma string Set plataforma se servidor for
+                                       multiplataforma capaz
+      --privilegiado Dar privilégios estendidos a este
+                                       Recipiente
+  -p, --publicar lista Publicar porta(s) de um contêiner para
+                                       o anfitrião
+  -P, --publicar-todos Publique todos os portos expostos para
+                                       portas aleatórias
+      -leia-somente montar a raiz do recipiente
+                                       sistema de arquivos como ler apenas
+      -Reiniciar a política de reinicialização da sequência de sequências para aplicar quando um
+                                       saídas de contêiner (padrão "não")
+      --rm Remova automaticamente o recipiente
+                                       quando ele sai
+      --tempo de execução Tempo de execução Tempo de execução Tempo para usar para este recipiente
+      -Opções de segurança optam por segurança
+      --shm-size bytes Tamanho de /dev/shm
+      --stop-signal string Signal to stop a container
+                                       (padrão "15")
+      --stop-timeout int Timeout (em segundos) para parar um
+                                       Recipiente
+      -lista de armazenamento opções de driver de armazenamento para o
+                                       Recipiente
+      --opções sysctl map Sysctl (mapa padrão[])
+      --lista tmpfs Montar um diretório tmpfs
+  -t, --tty Alocar um pseudo-TTY
+      --opções ulimit ulimit Ulimit Ulimit (padrão [])
+  -u, --usuário string Username ou UID (formato:
+                                       <nome|uid>[:<group|gid>])
+      --usuários string Namespace de usuário para usar
+      -uts string UTS namespace para usar
+  -v, --lista de volumes Vincular montar um volume
+      --volume-driver string Driver opcional de volume para o
+                                       Recipiente
+      -volumes-da lista Volumes de montagem do especificado
+                                       recipientes
+  -w, --workdir string Diretório de trabalho dentro do contêiner
+```
 
 ___
 
@@ -2633,7 +3132,7 @@ Inspecionar serve para verificar as informação de todo o ativo que se utiliza 
 docker inspect <id>
 ```
 
-De forma prática, olhe a informação retirada de um container de ID **9fd1352d1ad1**:
+De forma prática, olhe a informação retirada de um container de **ID: 9fd1352d1ad1**:
 ```
 root@debian:~# docker inspect 9fd1352d1ad1
 [
@@ -2932,7 +3431,7 @@ root@debian:~# docker inspect 4e2eef94cd6b
 ]
 ```
 
-De todos os listados, é possível se alterar alguns valores, pois os listados são paramentros para o funcionamento da imagem ou container.
+De todos os listados, é possível se alterar alguns valores, pois são parâmetros para o funcionamento da imagem ou container.
 
 ____
 
@@ -2941,7 +3440,7 @@ ____
 
 Bem, o inspect já nos mostrou que um container possível vários pontos que podem ser configurados, vamos ver um poucos deles, sendo mais especifico, o processador e memória.
 
-Quando se usa um container Docker, o mesmo utilizada **TODA** a máquina como seu **POOL** de recursos,... Bem, imagino que você notou o perigo disso, imagine aquele container processando o mundo e fundo e do nada sua máquina host morre! Quem tem Windows já deve ter sofrido com um processo chamado de **VMMEM** com o Docker, então, é o mesmo, recursos instanciados do **HOST** para o Docker... No começo desses manual foi falado que a vantagem da virtualização e dos containers são ambientes isolados que não afetam o **HOST**, isso só é verdade quando se é configurado corretamente.
+Quando se usa um container Docker, o mesmo utilizada **TODA** a máquina como seu **POOL** de recursos,... imagino que você notou o perigo disso, sabe aquele container processando o mundo e fundo e do nada sua máquina **HOST** morre! Quem tem Windows já deve ter sofrido com um processo chamado de **VMMEM** com o Docker (Principalmente aqueles que não tem um se o hypervior), então, é o mesmo, recursos instanciados do **HOST** para o Docker... No começo desses manual foi falado que a vantagem da virtualização e dos containers são ambientes isolados que não afetam o **HOST**, isso só é verdade quando se é configurado corretamente.
 
 Bem antes de tudo é valido lembrar que:
 * Funções de controle sobre containers são somente válidos as versões mais novas do Docker;
@@ -3033,15 +3532,15 @@ ___
 Podemos montar volumes que são diretórios do **HOST** dentro do docker, assim mesmo que o container morra, o arquivo ainda vai existir pois ele pertence ao **HOST**, más e se quisermos só enviar o arquivo sem montar uma unidade... Para isso usamos o ```cp```, veja:
 
 ```
-C:\Users\guilhermebrechot>docker ps
+C:\Users\teste>docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
 557801e49c34        f6dcff9b59af        "bash"              About a minute ago   Up About a minute                       condescending_lewin
 
-C:\Users\guilhermebrechot>dir teste
+C:\Users\teste>dir teste
  O volume na unidade C não tem nome.
  O Número de Série do Volume é 32E5-9B82
 
- Pasta de C:\Users\guilhermebrechot\teste
+ Pasta de C:\Users\teste\teste
 
 16/09/2020  16:32    <DIR>          .
 16/09/2020  16:32    <DIR>          ..
@@ -3049,13 +3548,13 @@ C:\Users\guilhermebrechot>dir teste
                1 arquivo(s)             10 bytes
                2 pasta(s)   40.186.564.608 bytes disponíveis
 
-C:\Users\guilhermebrechot>docker cp teste/ 557801e49c34:/
+C:\Users\teste>docker cp teste/ 557801e49c34:/
 
-C:\Users\guilhermebrechot>docker exec -ti 557801e49c34 ls /
+C:\Users\teste>docker exec -ti 557801e49c34 ls /
 bin   dev  home  lib64  mnt  proc  run   srv  teste  usr
 boot  etc  lib   media  opt  root  sbin  sys  tmp    var
 
-C:\Users\guilhermebrechot>docker exec -ti 557801e49c34 ls /teste
+C:\Users\teste>docker exec -ti 557801e49c34 ls /teste
 teste.txt
 
 ```
@@ -3064,7 +3563,7 @@ Com isso notamos que ele enviou o arquivo para dentro do container sem afetar o 
 
 **Original:**
 ```
-C:\Users\guilhermebrechot>docker cp --help
+C:\Users\teste>docker cp --help
 
 Usage:  docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
         docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
@@ -3083,7 +3582,7 @@ Options:
 
 **Tradução:**
 ```
-C:\Usuários\guilhermebrechot>docker cp --ajuda
+C:\Usuários\teste>docker cp --ajuda
 
 Uso: docker cp [OPÇÕES] CONTAINER:SRC_PATH DEST_PATH|-
         docker cp [OPÇÕES] SRC_PATH|- CONTAINER:DEST_PATH
@@ -3164,6 +3663,57 @@ Uso: docker diff CONTAINER
 
 Inspecione alterações em arquivos ou diretórios no sistema de arquivos de um contêiner
 ```
+____
+
+#### Exportar file system de um container
+
+A função tem o objetivo de realizar BK's do filesystem do container, se tiver volumes montados, os mesmo não serão afetados, ele somente irá copiar aos arquivos que fazer parte da estrutura do container, veja:
+
+```
+C:\Users\teste>docker run -ti -d ubuntu
+cdfaf2cade31d0cd6a0cefede3e398549e534146a6e9bac34edee7ec5d9d6fe0
+
+C:\Users\teste>docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+cdfaf2cade31        ubuntu              "/bin/bash"         3 seconds ago       Up 2 seconds                            compassionate_curran
+
+C:\Users\teste>docker export cdfaf2cade31 > teste.tar
+```
+
+Se der um ```ls``` ou ```dir```, provavelmente vai aparecer essa linha:
+
+```
+22/09/2020  11:54        75.256.320 teste.tar
+```
+
+Com isso, dá para subir um novo container com as informações de outro.
+
+Por fim, da uma olhada no ```--help``` deste cara, ele combina muito bem com o **CP** ou **MOUNT**:
+
+**Original:**
+```
+C:\Users\guilhermebrechot>docker export --help
+
+Usage:  docker export [OPTIONS] CONTAINER
+
+Export a container's filesystem as a tar archive
+
+Options:
+  -o, --output string   Write to a file, instead of STDOUT
+```
+
+**Tradução:**
+```
+C:\Usuários\guilhermebrechot>docker exportação --ajuda
+
+Uso: docker export [OPÇÕES] CONTAINER
+
+Exporte o sistema de arquivos de um contêiner como um arquivo de piche
+
+Opções:
+  -o, --sequência de saída Gravar para um arquivo, em vez de STDOUT
+```
+
 ____
 
 #### COMMIT
@@ -3520,7 +4070,7 @@ Bem, agora vamos fazer um BUILD simples sobre o contêudo demonstrado:
 docker build .
 ```
 
-Olhe a saida disso:
+Olhe a saída disso:
 ```
 root@debian:~# docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
@@ -3593,7 +4143,7 @@ Então, o **BUILD** é faz quase a mesma coisa que o **RUN**, ele entende o arqu
 |Customizações| XYZ |  XYZ | |   
 ...
 
-Veja, se eu der um **BUILD** no Dockerfile - 1, eu terei uma imagem com Ubuntu/apache, más se eu alterar esse arquivo e colocar um Cento OS como base, no momento que der o **BUILD**, ele só vai procurar pela imagem Cento e utilizar o Apache que já tava ali.
+Veja, se eu der um **BUILD** no **"Dockerfile - 1"**, eu terei uma imagem com Ubuntu/apache, más se eu alterar esse arquivo e colocar um Cento OS como base, no momento que der o **BUILD**, ele só vai procurar pela imagem Cento e utilizar o Apache que já tava ali.
 
 Todos os **STEP** são passos para a conclusão da criação da imagem e seguem a quantidade de linhas existentes dentro do **Dockerfile**.
 
@@ -4230,8 +4780,13 @@ root@debian:~/exemplo# docker-compose ps
 exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
 ```
 
+...
 
 Pausa para o café...
+
+...
+
+Voltando!!!!!
 
 ____
 
