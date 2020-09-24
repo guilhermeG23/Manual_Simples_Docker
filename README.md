@@ -1,6 +1,6 @@
 # Docker
 ## Manual simples
-#### Revisão - Versão: 0.0.9
+#### Revisão - Versão: 0.1.0
 
 ___
 
