@@ -189,26 +189,15 @@ ___
 
 #### Debian
 
-Versão do S.O utilizado:
-```
-Linux version 4.19.0-10-amd64 (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-6)) #1 SMP Debian 4.19.132-1 (2020-07-24)
-```
-Versão do Docker utilizado:
-```
-Docker version 18.09.1, build 4c52b90
-```
+* Versão do S.O utilizado: ``` Linux version 4.19.0-10-amd64 (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-6)) #1 SMP Debian 4.19.132-1 (2020-07-24)```
+* Versão do Docker utilizado: ```Docker version 18.09.1, build 4c52b90```
 
 #### Windows 10
 
-Versão do S.O utilizado:
-```
-Nome do sistema operacional:               Microsoft Windows 10 Home Single Language
-Versão do sistema operacional:             10.0.19041 N/A compilação 19041
-```
-Versão do Docker utilizado:
-```
-Docker version 19.03.12, build 48a66213fe
-```
+* Versão do S.O utilizado: 
+    * ```Nome do sistema operacional:               Microsoft Windows 10 Home Single```
+    * ```Language Versão do sistema operacional:             10.0.19041 N/A compilação 19041```
+* Versão do Docker utilizado: ```Docker version 19.03.12, build 48a66213fe```
 
 ___
 
@@ -672,7 +661,7 @@ ____
 Quando executado o ```hello-world``` ou ```hello-world:latest``` a saída inicial será esta:
 
 ```
-root@teste-teste:/home/guilherme# docker run hello-world
+root@teste-teste:/home/teste# docker run hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
 1b930d010525: Pull complete 
@@ -684,7 +673,7 @@ Status: Downloaded newer image for hello-world:latest
 
 O que está sendo realizado é o **PULL** das camadas do container **hello-world**, após essa parte terminar, será executado o container em si, más o que é tudo isso? Veja:
 
-* **Comando** -> root@teste-teste:/home/guilherme# docker run hello-world
+* **Comando** -> root@teste-teste:/home/teste# docker run hello-world
 * **Procura interna** -> Unable to find image 'hello-world:latest' locally
 * **Achando no docker hub** -> latest: Pulling from library/hello-world
 * **Download no hello-word** -> 
@@ -2820,8 +2809,7 @@ c9c80027f5bf        bb0eaf4eee00        "echo 'hello word'"   12 seconds ago    
 C:\Users\teste>docker start -a c9c80027f5bf
 hello word
 ```
-
-Esse comando é bem completo e não irei ao fundo sobre ele por motivos de não utiliza-lo em prática, então aqui vai o ```--help``` para se ter uma idéia de suas funções:
+O uso desete comando é para provisionar máquinas para uma demanada, porém não será explicado mais ao fundo já que o mesmo tem funções parecidas com o **RUN** comum, más aqui vai o ```--help``` para se ter uma idéia de suas funções:
 
 **Original:**
 ```
@@ -3692,7 +3680,7 @@ Por fim, da uma olhada no ```--help``` deste cara, ele combina muito bem com o *
 
 **Original:**
 ```
-C:\Users\guilhermebrechot>docker export --help
+C:\Users\teste>docker export --help
 
 Usage:  docker export [OPTIONS] CONTAINER
 
@@ -3704,7 +3692,7 @@ Options:
 
 **Tradução:**
 ```
-C:\Usuários\guilhermebrechot>docker exportação --ajuda
+C:\Usuários\teste>docker exportação --ajuda
 
 Uso: docker export [OPÇÕES] CONTAINER
 
@@ -4238,6 +4226,8 @@ ___
 
 Siga esse link para a distro que estiver utilizando:
 * https://docs.docker.com/compose/install/
+
+Más se você está usando Windows ou MAC, possívelmente você já tenha o Compose na máquina.
 
 ___
 
@@ -4790,7 +4780,7 @@ Voltando!!!!!
 
 ____
 
-#### Voltando para finalizar
+#### Alterando os status
 
 Daqui por diante é só comando parecido com o docker comum, então é simples de se entender, veja:
 
@@ -4862,9 +4852,268 @@ root@debian:~/exemplo# docker-compose ps
 ---------------------------------------------------------------------------------
 exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
 ```
+___
+
+### Validando as infos do file
+
+Acho que já é tarde, más tem como ver e validar as configurações do **docker-compose.yml**, pegue essa base e veja:
+```
+version: '3'
+services:
+  server1:
+    image: ubuntu
+  server2:
+    image: ubuntu
+```
+
+Agora vamos confirmar a integridade do arquivo:
+
+```
+C:\Users\teste>docker-compose config
+services:
+  server1:
+    image: ubuntu
+  server2:
+    image: ubuntu
+version: '3'
+
+C:\Users\teste>docker-compose config -q
+```
+
+O que aconteceu? Ele validou o arquivo, como não acusou erros, se executar o **UP** aqui, o **COMPOSE** vai subir, agora olha isso, vou colocar uma coisa errada e forma do lugar:
+
+```
+C:\Users\teste>docker-compose config
+ERROR: yaml.scanner.ScannerError: while scanning for the next token
+found character '\t' that cannot start any token
+  in ".\docker-compose.yml", line 5, column 1
+
+C:\Users\teste>docker-compose config -q
+ERROR: yaml.scanner.ScannerError: while scanning for the next token
+found character '\t' that cannot start any token
+  in ".\docker-compose.yml", line 5, column 1
+
+```
+
+Ele acusa onde está o erro dentro da config do compose, agora tem mais algumas coisas.
+
+Aqui alguns parâmetros legais... **OPA**, pera, alterei o arquivo, segura esse aqui e veja as opções:
+```
+version: '3'
+services:
+  server1:
+    image: ubuntu
+    volumes:
+        - ./teste/:/root
+  server2:
+    image: ubuntu
+    volumes:
+        - ./teste/:/root
+```
+
+Certo, agora o ```--services```:
+
+```
+C:\Users\teste>docker-compose config --services
+server1
+server2
+```
+
+Podemos ver que ele demonstra o nome dos services executados dentro do Docker-compose, no caso os containers.
+
+Agora vamos ver que imagens do containers usam, **PS:** Se não tiver a imagem, você tem que dar um **BUILD** antes:
+
+```
+C:\Users\teste>docker-compose config --resolve-image-digests
+services:
+  server1:
+    image: ubuntu@sha256:cbcf86d7781dbb3a6aa2bcea25403f6b0b443e20b9959165cf52d2cc9608e4b9
+    volumes:
+    - C:\Users\teste\teste:/root:rw
+  server2:
+    image: ubuntu@sha256:cbcf86d7781dbb3a6aa2bcea25403f6b0b443e20b9959165cf52d2cc9608e4b9
+    volumes:
+    - C:\Users\teste\teste:/root:rw
+version: '3'
+```
+
+Pode se listar os serviços com suas respectivas imagens, **EXEMPLO:**
+```
+C:\Users\teste>docker-compose config --hash="*"
+server1 8dbcc587b022b31a65bc3523bcbf1a55027f8b041a01594eb5081d4688e36b6a
+server2 8dbcc587b022b31a65bc3523bcbf1a55027f8b041a01594eb5081d4688e36b6a
+```
+
+Eu tentei listar os ```--volumes``` porém não teve saída pelo terminal, então não posso demonstrar o funcionamento.
+
+Por fim vai o ```--help``` desse cara:
+
+**Original:**
+```
+Validate and view the Compose file.
+
+Usage: config [options]
+
+Options:
+    --resolve-image-digests  Pin image tags to digests.
+    --no-interpolate         Don't interpolate environment variables.
+    -q, --quiet              Only validate the configuration, don't print
+                             anything.
+    --services               Print the service names, one per line.
+    --volumes                Print the volume names, one per line.
+    --hash="*"               Print the service config hash, one per line.
+                             Set "service1,service2" for a list of specified services
+                             or use the wildcard symbol to display all services.
+```
+
+**Traduzido:**
+```
+Valide e visualize o arquivo Compose.
+
+Uso: config [opções]
+
+Opções:
+    --resolve-image-digests Fixa as tags de imagem nos resumos.
+    --no-interpolate Não interpola variáveis ​​de ambiente.
+    -q, --quiet Valida apenas a configuração, não imprime
+                             qualquer coisa.
+    --services Imprime os nomes dos serviços, um por linha.
+    --volumes Imprime os nomes dos volumes, um por linha.
+    --hash = "*" Imprime o hash de configuração do serviço, um por linha.
+                             Defina "serviço1, serviço2" para uma lista de serviços especificados
+                             ou use o símbolo curinga para exibir todos os serviços.
+```
 
 ___
 
-#### Bem é isso
+### Um pouco de PULL e PUSH
 
-Obrigado por ter chegado até o fim e espero muito que tenha aproveitado sobre esse rápido manual sobre o Docker e o Docker-Compose, desculpe pelo erros ortográficos e por fim, volte de vez em quando, vai que eu dou uma atualizado neste manual, bem é isso, agradeço pela atenção e continue com os estudos;
+Primeiro o **PULL**, veja o exemplo:
+
+```
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               latest              7e4d58f0e5f3        2 weeks ago         133MB
+debian              latest              f6dcff9b59af        2 weeks ago         114MB
+
+C:\Users\teste>docker-compose config
+services:
+  server1:
+    image: ubuntu
+    volumes:
+    - C:\Users\teste\teste:/root:rw
+  server2:
+    image: debian
+    volumes:
+    - C:\Users\teste\teste:/root:rw
+version: '3'
+
+
+C:\Users\teste>docker-compose pull
+Pulling server1 ... done
+Pulling server2 ... done
+
+C:\Users\teste>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              bb0eaf4eee00        7 days ago          72.9MB
+nginx               latest              7e4d58f0e5f3        2 weeks ago         133MB
+debian              latest              f6dcff9b59af        2 weeks ago         114MB
+
+```
+
+Entendeu, o **PULL** aqui é igual o **PULL** do Docker normal, você baixa a imagem sem iniciar o compose.
+
+Acho legal mostrar essa opção, mesmo que esteja sendo depreciada:
+
+```
+C:\Users\teste>docker-compose pull --parallel
+WARNING: --parallel option is deprecated and will be removed in future versions.
+Pulling server1 ... done
+Pulling server2 ... done
+```
+
+O ```--parallel``` faz download em paralelo das imagens do compose file.
+
+Veja o manual desse cara:
+
+**Original:**
+```
+C:\Users\guilhermebrechot>docker-compose pull --help
+Pulls images for services defined in a Compose file, but does not start the containers.
+
+Usage: pull [options] [--] [SERVICE...]
+
+Options:
+    --ignore-pull-failures  Pull what it can and ignores images with pull failures.
+    --parallel              Deprecated, pull multiple images in parallel (enabled by default).
+    --no-parallel           Disable parallel pulling.
+    -q, --quiet             Pull without printing progress information
+    --include-deps          Also pull services declared as dependencies
+```
+
+**Traduzido:**
+```
+C: \ Users \ guilhermebrechot> docker-compose pull --help
+Extrai imagens para serviços definidos em um arquivo Compose, mas não inicia os contêineres.
+
+Uso: puxar [opções] [-] [SERVIÇO ...]
+
+Opções:
+    --ignore-pull-failures Puxe o que puder e ignora imagens com falhas de pull.
+    --parallel Obsoleto, extrai várias imagens em paralelo (habilitado por padrão).
+    --no-parallel Desabilita puxar paralelo.
+    -q, --quiet Puxe sem imprimir informações de progresso
+    --include-deps Também extrair serviços declarados como dependências
+```
+
+
+Agora tem o **PUSH**, o mesmo envia a imagem devolta para o repositório de onde capturou imagem, más ele é um pouco mais complexo e necessita de acesso ou ao **POOL** de onde ele veio ou ao seu repositório no Docker-Hub, então ele não será demonstrado corretamente, más da para se ter uma idéia com isso aqui:
+
+```
+C:\Users\teste>docker-compose pull
+Pulling server1 ... error
+Pulling server2 ... done
+
+ERROR: for server1  pull access denied for meuubuntu, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+ERROR: pull access denied for meuubuntu, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+```
+
+Ele acusa que eu não tenho como dar um **PULL**, más valeu demonstrar que é possível.
+
+Bem, aqui vai o ```--help``` do **PULL:**
+
+
+**Original:**
+```
+C:\Users\guilhermebrechot>docker-compose pull --help
+Pulls images for services defined in a Compose file, but does not start the containers.
+
+Usage: pull [options] [--] [SERVICE...]
+
+Options:
+    --ignore-pull-failures  Pull what it can and ignores images with pull failures.
+    --parallel              Deprecated, pull multiple images in parallel (enabled by default).
+    --no-parallel           Disable parallel pulling.
+    -q, --quiet             Pull without printing progress information
+    --include-deps          Also pull services declared as dependencies
+```
+
+**Traduzido:**
+```
+C: \ Users \ guilhermebrechot> docker-compose pull --help
+Extrai imagens para serviços definidos em um arquivo Compose, mas não inicia os contêineres.
+
+Uso: puxar [opções] [-] [SERVIÇO ...]
+
+Opções:
+    --ignore-pull-failures Puxe o que puder e ignora imagens com falhas de pull.
+    --parallel Obsoleto, extrai várias imagens em paralelo (habilitado por padrão).
+    --no-parallel Desabilita puxar paralelo.
+    -q, --quiet Puxe sem imprimir informações de progresso
+    --include-deps Também extrair serviços declarados como dependências
+```
+___
+
+### Bem é isso
+
+Obrigado por ter chegado até o fim e espero muito que tenha aproveitado sobre esse rápido manual sobre o Docker e o Docker-Compose, desculpe pelo erros ortográficos e pelo contéudo limitado, Docker é uma ferramenta com muitas funcionabilidades que podem ser listadas, espero que tenha aproveitado e volte de vez em quando, vai que eu atualizado.
