@@ -13,7 +13,7 @@ ___
 ### Introdução
 
 Este manual visa:
-* Demonstrar o que é o Docker;
+* Demonstrar o que é o Docker; 
 * Diferença do docker e máquinas virtuais;
 * Porque da utilização do Docker;
 * Demonstrar de forma introdutória e menos formal a plataforma e seu uso;
@@ -156,7 +156,7 @@ A empresa se renomeou depois do ***BUM*** e atualmente é a mantenedora principa
 O Docker é um conjunto de ferramentas, sendo essas:
 
 * **Docker engine:** Intermédio entre o sistema **HOST** e os containers;
-* **Docker compose:** Facilitar a manipulações de múltiplos containers de uma vez(orquestrar);
+* **Docker compose:** Facilitar a manipulações de múltiplos containers de uma vez;
 * **Docker swarm:** Múltiplos container's docker para criação de clusters;
 * **Docker hub:** Repositório com mais de 250 mil imagens de conteiners prontas;
 * **Docker machine:** Instala e gerência hosts virtuais;
@@ -2809,7 +2809,7 @@ c9c80027f5bf        bb0eaf4eee00        "echo 'hello word'"   12 seconds ago    
 C:\Users\teste>docker start -a c9c80027f5bf
 hello word
 ```
-O uso desete comando é para provisionar máquinas para uma demanada, porém não será explicado mais ao fundo já que o mesmo tem funções parecidas com o **RUN** comum, más aqui vai o ```--help``` para se ter uma idéia de suas funções:
+O uso deste comando é para provisionar máquinas para uma demanada, porém não será explicado mais ao fundo já que o mesmo tem funções parecidas com o **RUN** comum, más aqui vai o ```--help``` para se ter uma idéia de suas funções:
 
 **Original:**
 ```
@@ -4218,8 +4218,7 @@ Más não é que é ruim subir na mão os containers, é que numa aplicação do
 
 Agora, vemos lembrar la do inicio, **#SUBA A TELA CASO TENHA ESQUECIDO**, que afirma-va que um container tem a propósta de funcionar com uma unica aplicação sobre ele, assim não pense que é só colocar toda a sua produção sobre um container e esperar que de tudo certo... tudo bem, se nada de ruim acontecer tudo vai funcionar... más como você está neste manual você sabe, **MERLIN's acontencem**.
 
-Para isso existe a ferramenta Docker Compose que é o orquestrador de containers para automação de tarefas.
-
+O Docker Compose é uma ferramente justamente para esse tipo de cenário, o mesmo é um gerenciador para multiplos containers.
 ___
 
 #### Instalando o compose
@@ -4228,6 +4227,17 @@ Siga esse link para a distro que estiver utilizando:
 * https://docs.docker.com/compose/install/
 
 Más se você está usando Windows ou MAC, possívelmente você já tenha o Compose na máquina.
+
+___
+
+#### Diferença de um compose para um file
+
+Se você pesquisar, sempre paira essa duvida, qual é a diferena?
+
+* Dockerfile: Montar uma imagem customizada;
+* Docker-compose: Montar um ambiente customizada;
+
+Pensa comigo, em qualquer um dos dois podemos montar uma imagem para subir um ambiente e tals... tem real diferença? Sim, tem! O Dockerfile te monta uma unica imagem por teoria, já o Docker-compose le permite montar todo um ambiente, independente da quantidade de imagens e demais.
 
 ___
 
@@ -4362,7 +4372,7 @@ ___
 
 #### Compose
 
-O Docker compose tem o mesmo funcionamento que um Dockerfile, são criadas receitas para a montagem de ambientes em vez de uma unica imagem como o Dockerfile, o compose se utiliza de um arquivo .yml de nome docker-compose.yml, exemplo:
+Como já dito o O Docker-compose é parecido em proposta ao Dockerfile, são criadas receitas para a montagem de determinados ambientes, sobre o compose veja o exemplo a seguir, ele se utiliza de um arquivo .yml de nome docker-compose.yml para a criação dos ambientes:
 
 * **Arquivo:**
 ```
@@ -4667,7 +4677,12 @@ Isso porque o **server1** está usando uma outro imagem que ainda existe, para q
 * Poderia se criar um novo Compose;
 * Ou matar o antigo e iniciar um novo;
 
-Eu escolhi matar, más como mata? execute o:
+Eu escolhi matar, más como mata?
+
+**PS: Pegue uma trinta e doze e seja feliz!**
+...
+
+Calma, brincadeira... com um leve fundo de verdade, más use esse comando:
 
 ```
 docker-compose down
@@ -4749,114 +4764,9 @@ Bem, é isso, notemos que o container subiu normalmente e que podemos até ver o
 
 ___
 
-#### Descanso
-
-Bem estamos perto do fim e bora dar uma pausa... pronto, há esquecia de avisar, lembra o ```ctrl+p+q``` que você usa para sair de um container sem matar ele, bem, funciona no Compose também, caso você estiver taxado nele, é só dar esse comando para voltar ao terminal, veja:
-
-```
-root@debian:~/exemplo# docker-compose up
-WARNING: Found orphan containers (exemplo_server2_1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.
-Starting exemplo_server1_1 ... done
-Attaching to exemplo_server1_1
-server1_1  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
-server1_1  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
-server1_1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
-server1_1  | 10-listen-on-ipv6-by-default.sh: error: IPv6 listen already enabled
-server1_1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
-server1_1  | /docker-entrypoint.sh: Configuration complete; ready for start up
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State          Ports
----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
-```
-
-...
-
-Pausa para o café...
-
-...
-
-Voltando!!!!!
-
-____
-
-#### Alterando os status
-
-Daqui por diante é só comando parecido com o docker comum, então é simples de se entender, veja:
-
-```
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State          Ports
----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
-root@debian:~/exemplo# docker-compose pause
-Pausing exemplo_server1_1 ... done
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State           Ports
-----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Paused   0.0.0.0:8080->80/tcp
-root@debian:~/exemplo# docker-compose start
-Starting server1 ... done
-root@debian:~/exemplo# docker-compose kill
-Killing exemplo_server1_1 ... done
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command                State     Ports
----------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Exit 137
-root@debian:~/exemplo# docker-compose start
-Starting server1 ... done
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State          Ports
----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
-root@debian:~/exemplo# docker-compose pause
-Pausing exemplo_server1_1 ... done
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State           Ports
-----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Paused   0.0.0.0:8080->80/tcp
-root@debian:~/exemplo# docker-compose unpause
-Unpausing exemplo_server1_1 ... done
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State          Ports
----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
-```
-
-De quebra toma um ```pause```, ```start```, ```kill``` e ```unpause```:
-
-* ```pause``` pausa os container\s que estão em funcionamento;
-* ```start``` inicia container\s existentes;
-* ```kill``` mata esses containers;
-* ```unpause``` inicia os container\s parados;
-
-Temos também o comando ```restart```, o mesmo irá reiniciar os containers atualmente criados, veja:
-
-```
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State          Ports
----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
-root@debian:~/exemplo# docker-compose pause
-Pausing exemplo_server1_1 ... done
-root@debian:~/exemplo# docker-compose start
-Starting server1 ... done
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State           Ports
-----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Paused   0.0.0.0:8080->80/tcp
-root@debian:~/exemplo# docker-compose restart
-Restarting exemplo_server1_1 ... done
-root@debian:~/exemplo# docker-compose ps
-      Name                     Command               State          Ports
----------------------------------------------------------------------------------
-exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
-```
-___
-
 ### Validando as infos do file
 
-Acho que já é tarde, más tem como ver e validar as configurações do **docker-compose.yml**, pegue essa base e veja:
+Acho que já é tarde para comentar, más tem como ver e validar as configurações do **docker-compose.yml**, pegue essa base e veja:
 ```
 version: '3'
 services:
@@ -4880,7 +4790,7 @@ version: '3'
 C:\Users\teste>docker-compose config -q
 ```
 
-O que aconteceu? Ele validou o arquivo, como não acusou erros, se executar o **UP** aqui, o **COMPOSE** vai subir, agora olha isso, vou colocar uma coisa errada e forma do lugar:
+O que aconteceu? Ele validou o arquivo já que não acusou erros, se executar o **UP** aqui, o **COMPOSE** vai subir, agora olha isso, vou colocar uma coisa errada e forma do lugar:
 
 ```
 C:\Users\teste>docker-compose config
@@ -4984,6 +4894,110 @@ Opções:
                              ou use o símbolo curinga para exibir todos os serviços.
 ```
 
+___
+
+#### Descanso
+
+Bem estamos perto do fim e bora dar uma pausa... pronto, há esquecia de avisar, lembra o ```ctrl+p+q``` que você usa para sair de um container sem matar ele, bem, funciona no Compose também, caso você estiver taxado nele, é só dar esse comando para voltar ao terminal, veja:
+
+```
+root@debian:~/exemplo# docker-compose up
+WARNING: Found orphan containers (exemplo_server2_1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.
+Starting exemplo_server1_1 ... done
+Attaching to exemplo_server1_1
+server1_1  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+server1_1  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+server1_1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+server1_1  | 10-listen-on-ipv6-by-default.sh: error: IPv6 listen already enabled
+server1_1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+server1_1  | /docker-entrypoint.sh: Configuration complete; ready for start up
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State          Ports
+---------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
+```
+
+___
+
+...
+Pausa para o café...
+...
+Voltando!!!!!
+
+____
+
+#### Alterando os status
+
+Daqui por diante é só comando parecido com o docker comum, então é simples de se entender, veja:
+
+```
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State          Ports
+---------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
+root@debian:~/exemplo# docker-compose pause
+Pausing exemplo_server1_1 ... done
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State           Ports
+----------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Paused   0.0.0.0:8080->80/tcp
+root@debian:~/exemplo# docker-compose start
+Starting server1 ... done
+root@debian:~/exemplo# docker-compose kill
+Killing exemplo_server1_1 ... done
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command                State     Ports
+---------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Exit 137
+root@debian:~/exemplo# docker-compose start
+Starting server1 ... done
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State          Ports
+---------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
+root@debian:~/exemplo# docker-compose pause
+Pausing exemplo_server1_1 ... done
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State           Ports
+----------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Paused   0.0.0.0:8080->80/tcp
+root@debian:~/exemplo# docker-compose unpause
+Unpausing exemplo_server1_1 ... done
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State          Ports
+---------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
+```
+
+De quebra toma um ```pause```, ```start```, ```kill``` e ```unpause```:
+
+* ```pause``` pausa os container\s que estão em funcionamento;
+* ```start``` inicia container\s existentes;
+* ```kill``` mata esses containers;
+* ```unpause``` inicia os container\s parados;
+
+Temos também o comando ```restart```, o mesmo irá reiniciar os containers atualmente criados, veja:
+
+```
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State          Ports
+---------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
+root@debian:~/exemplo# docker-compose pause
+Pausing exemplo_server1_1 ... done
+root@debian:~/exemplo# docker-compose start
+Starting server1 ... done
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State           Ports
+----------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Paused   0.0.0.0:8080->80/tcp
+root@debian:~/exemplo# docker-compose restart
+Restarting exemplo_server1_1 ... done
+root@debian:~/exemplo# docker-compose ps
+      Name                     Command               State          Ports
+---------------------------------------------------------------------------------
+exemplo_server1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8080->80/tcp
+```
 ___
 
 ### Um pouco de PULL e PUSH
@@ -5116,4 +5130,4 @@ ___
 
 ### Bem é isso
 
-Obrigado por ter chegado até o fim e espero muito que tenha aproveitado sobre esse rápido manual sobre o Docker e o Docker-Compose, desculpe pelo erros ortográficos e pelo contéudo limitado, Docker é uma ferramenta com muitas funcionabilidades que podem ser listadas, espero que tenha aproveitado e volte de vez em quando, vai que eu atualizado.
+Obrigado por ter chegado até o fim e espero muito que tenha aproveitado sobre esse rápido manual, desculpe pelo erros ortográficos e pelo contéudo limitado, espero que tenha aproveitado e volte de vez em quando, vai que eu atualizado.
