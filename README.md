@@ -130,6 +130,7 @@ Além de demais vantagens do container sobre a virtualização são:
 Agora colocando o Docker + container's tem mais algumas razões e motivos, como:
 * Facilidade de migração de sistemas de uma S.O para outro;
 * Repositório online de imagens para uso;
+* Idempotência das ações realizadas com o tempo ou em demais hosts;
 
 ___
 
@@ -865,7 +866,7 @@ ___
 
 Os containers docker funcionam sobre camadas de imagens, alimentadas por um sistema de **PULL**, quanto mais completa for a imagem mais **PULL'S** se precisa ter, um exemplo disso é a imagem **UBUNTU** que forá executado acima, ela precisou de 4 pull's para seu funcionamento, já o **hello-world** necessitou de somente 1 pull.
 
-Cada pull é uma camada, essa uma camada é parte do funcionamento de uma imagem container e a mesma pode se váriar, por exemplo, posso baixar uma camada de web server e demais outros, agora um exemplo legal de como o Docker trata cada container como isolado, más não as camadas que foram as imagens.
+Cada pull é uma camada, essa uma camada é parte do funcionamento de uma imagem container e a mesma pode se variar, por exemplo, posso baixar uma camada de web server e demais outros, agora um exemplo legal de como o Docker trata cada container como isolado, más não as camadas que foram as imagens.
 
 **Exemplo:**
 
@@ -902,8 +903,13 @@ Bem, vamos supor que você subiu um container, fez todas as alterações e depoi
 * **Base** -> Camada de leitura;
 * **Alterar** -> Camada de escrita;
 
-
 De forma resumida as camadas funcionam **Read/write**, um container é formado de pulls que são camadas **READ** e quando executados como um container **RUN**, se cria uma camada **WRITE** para o usuário se trabalhar.
+
+##### Ultimas coisinha sobre as camadas
+
+Como explicado, um container é a construção de várias camadas em funcionamento, más o que acontece se alteramos uma camada? Para ser mais exato, pense que uma camada é manipulavel, assim sua entrada ou estado nunca será sempre igual, o que acontece com as demais camadas do container? Simples, elas teram que se ajustar a essa nova camada, pois a contrução do container é linear... como assim?
+
+Veja vem, se temos uma imagem que precisa de 5 camadas para ser construida e necessitamos alterar a 3° camada, a 4° e a 5° tambem sofreram de um processo de verificação e construção, pois uma camada abaixa sofreu alterações.
 
 ___
 
@@ -1283,6 +1289,25 @@ Opções:
 ```
 
 Notemos que existem vários parâmetros que permitem configurações personalizadas para os mesmo, alguns destes são explicados e usados ao longo do manual, partiu!
+
+___
+
+#### Variaveis de ambiente dentro de um container
+
+A imagens de containers que necessitam de entradas/váriaveis para subir corretamente, como exemplo abaixo.
+
+```
+C:\Users\guilhermerb\Desktop>docker run -e TESTE="teste" -ti ubuntu:latest
+root@55b22396c70f:/# echo $TESTE
+teste
+```
+
+O Comando:
+```
+docker run -e 
+```
+
+A opção ```-e``` é para setar uma váriavel de ambiente dentro do container, como demonstrado, o mesmo respondeu a uma váriavel que normalmente não existe dentro de seu sistema após ser iniciado. 
 
 ___
 
@@ -2718,6 +2743,8 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 76471d84ebeb        ubuntu              "/bin/bash"         4 seconds ago        Exited (0) 2 seconds ago                            teste
 b1547232cdf0        ubuntu              "/bin/bash"         About a minute ago   Exited (0) About a minute ago                       loving_kepler
 ```
+
+O ```--name``` gera um container com um nome pré-definido.
 
 * **rename**
 
